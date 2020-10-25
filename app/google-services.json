@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "105519248770",
+    "firebase_url": "https://dankeapps.firebaseio.com",
+    "project_id": "dankeapps",
+    "storage_bucket": "dankeapps.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:105519248770:android:8929a9d56f2e73be520b9b",
+        "android_client_info": {
+          "package_name": "com.example.dankeapps"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "105519248770-m1hh3rg14pt9k0c19m2v4keu5nuptcfm.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.dankeapps",
+            "certificate_hash": "0c22200278b4ca07b1c6d1cd9ae2eb12c7d12157"
+          }
+        },
+        {
+          "client_id": "105519248770-snsgma5jqigb7ugmpg7n9jsfevm217lb.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBxP6UoJYSJXpSbdrAcEExpioP_y_ECc1I"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "105519248770-snsgma5jqigb7ugmpg7n9jsfevm217lb.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
