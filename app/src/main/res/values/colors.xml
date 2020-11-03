@@ -6,4 +6,9 @@
     <color name="white">#ffffff</color>
     <color name="black">#FF000000</color>
     <color name="blue">#14ADFF</color>
+    <color name="ijo">#42E622</color>
+    <color name="ijoTua">#1F7C26</color>
+    <color name="pastel">#2FA770</color>
+    <color name="ijomuda">#92F38B</color>
+
 </resources>

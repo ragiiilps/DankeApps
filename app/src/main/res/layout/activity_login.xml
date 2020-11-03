@@ -8,38 +8,51 @@
     android:padding="40dp"
     tools:context=".Login">
 
+    <ImageView
+        android:id="@+id/gambar_logo"
+        android:layout_width="187dp"
+        android:layout_height="164dp"
+        android:src="@drawable/logo"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="40dp"/>
+
+    <TextView
+        android:id="@+id/logo_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Danke!"
+        android:textSize="12pt"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="20dp" />
+
     <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/login_username"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:focusable="true"
-        android:focusableInTouchMode="true"
-        android:layout_marginTop="200dp">
+        android:layout_marginTop="40dp"
+        android:hint="Username"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
 
         <EditText
-            android:id="@+id/login_email"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Email"
-            android:ems="10"
-            android:inputType="text"
+            android:inputType="textEmailAddress"
             />
     </com.google.android.material.textfield.TextInputLayout>
 
     <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/login_password"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:focusable="true"
-        android:focusableInTouchMode="true"
-        android:layout_marginTop="5dp">
+        app:passwordToggleEnabled="true"
+        android:layout_marginTop="5dp"
+        android:hint="Password"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
 
         <EditText
-            android:id="@+id/login_password"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Password"
-            android:ems="10"
-            android:inputType="textPassword"
-            />
+            android:inputType="textPassword" />
     </com.google.android.material.textfield.TextInputLayout>
 
     <Button
@@ -59,7 +72,7 @@
             android:id="@+id/create_text"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text=" New Here? Create Account"
+            android:text="Sign Up for Danke!"
             android:layout_gravity="center_horizontal"
             android:layout_marginTop="20dp"/>
 
@@ -67,20 +80,20 @@
         android:id="@+id/forget_password"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Forget Password?"
         android:layout_gravity="center_horizontal"
-        android:layout_marginTop="10dp"/>
+        android:layout_marginTop="10dp"
+        android:text="Forget Password?" />
 
     <ProgressBar
         android:id="@+id/progress_bar"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
-        android:layout_marginTop="20dp"
-        android:progressDrawable="@color/blue"
+        android:layout_marginTop="10dp"
+        android:progressDrawable="@color/ijo"
         android:indeterminate="true"
         android:indeterminateTintMode="src_atop"
-        android:indeterminateTint="@color/blue"
+        android:indeterminateTint="@color/ijo"
         android:visibility="invisible"/>
 
 

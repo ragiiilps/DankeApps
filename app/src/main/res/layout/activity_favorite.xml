@@ -19,7 +19,7 @@
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         app:menu="@menu/menu_navi"
-        app:itemBackground="@color/blue"
+        app:itemBackground="@color/ijo"
         app:itemIconTint="@drawable/selector"
         app:itemTextColor="@drawable/selector"/>
 
