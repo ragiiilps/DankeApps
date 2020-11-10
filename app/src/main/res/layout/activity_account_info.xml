@@ -5,60 +5,73 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:padding="40dp"
     tools:context=".AccountInfo">
 
-    <TextView
-        android:id="@+id/editinfo_txt"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Edit Profil"
-        android:textSize="10pt"/>
+    <include
+        android:id="@+id/toolbar"
+        layout="@layout/toolbar" />
+
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/name_info"
-        android:layout_width="match_parent"
+        android:layout_width="378dp"
         android:layout_height="wrap_content"
+        android:layout_marginTop="70dp"
         android:hint="Full Name"
-        android:layout_marginTop="50dp">
+        android:layout_marginLeft="25dp"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+        android:layout_gravity="center_horizontal">
 
         <EditText
-            android:layout_width="match_parent"
+            android:layout_width="329dp"
             android:layout_height="wrap_content"
-            android:drawableLeft="@drawable/ic_perm_identity_black_24dp"/>
+            android:drawableLeft="@drawable/ic_perm_identity_black_24dp"
+            android:drawablePadding="10dp" />
     </com.google.android.material.textfield.TextInputLayout>
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/username_info"
-        android:layout_width="match_parent"
+        android:layout_width="378dp"
         android:layout_height="wrap_content"
+        android:layout_marginLeft="25dp"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+        android:layout_gravity="center_horizontal"
         android:hint="Usename">
 
         <EditText
-            android:layout_width="match_parent"
+            android:layout_width="329dp"
             android:layout_height="wrap_content"
-            android:drawableLeft="@drawable/ic_person_pin_circle_black_24dp"/>
+            android:drawableLeft="@drawable/ic_person_pin_circle_black_24dp"
+            android:drawablePadding="10dp"/>
     </com.google.android.material.textfield.TextInputLayout>
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/email_info"
-        android:layout_width="match_parent"
+        android:layout_width="378dp"
         android:layout_height="wrap_content"
+        android:layout_marginLeft="25dp"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+        android:layout_gravity="center_horizontal"
         android:hint="Email">
 
         <EditText
-            android:layout_width="match_parent"
+            android:layout_width="329dp"
             android:layout_height="wrap_content"
-            android:drawableLeft="@drawable/ic_email_black_24dp"/>
+            android:drawableLeft="@drawable/ic_email_black_24dp"
+            android:drawablePadding="10dp"/>
     </com.google.android.material.textfield.TextInputLayout>
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/phone_info"
-        android:layout_width="match_parent"
+        android:layout_width="378dp"
         android:layout_height="wrap_content"
+        android:layout_marginLeft="25dp"
+        android:layout_gravity="center_horizontal"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
         android:hint="Phone">
 
         <EditText
-            android:layout_width="match_parent"
+            android:layout_width="329dp"
             android:layout_height="wrap_content"
-            android:drawableLeft="@drawable/ic_local_phone_black_24dp"/>
+            android:drawableLeft="@drawable/ic_local_phone_black_24dp"
+            android:drawablePadding="10dp"/>
     </com.google.android.material.textfield.TextInputLayout>
 
 
@@ -70,18 +83,21 @@
         android:layout_marginTop="50dp">
 
         <Button
-            android:id="@+id/simpan_btn"
+            android:id="@+id/update_btn"
             android:layout_width="123dp"
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
+            android:layout_marginRight="40dp"
             android:background="@drawable/bentuk_button"
-            android:text="Simpan" />
+            android:text="Update" />
 
         <Button
             android:id="@+id/back_btn"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:background="@drawable/ic_arrow_back_black_24dp"/>
+            android:layout_width="57dp"
+            android:layout_height="31dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginLeft="40dp"
+            android:background="@drawable/ic_arrow_back_black_24dp" />
 
 
 

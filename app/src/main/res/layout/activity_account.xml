@@ -26,9 +26,10 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@id/account_pic"
-            android:layout_marginLeft="43dp"
+            android:layout_marginLeft="30dp"
             android:layout_marginTop="10dp"
-            android:text="Nama Lengkap" />
+            android:text="Nama Lengkap"
+            android:textAlignment="center"/>
 
         <Button
             android:id="@+id/notif_btn"
@@ -53,6 +54,88 @@
     </RelativeLayout>
 
 
+    <ScrollView
+        android:id="@+id/frame_scroll"
+        android:layout_width="match_parent"
+        android:layout_height="300dp"
+        android:layout_below="@id/frame_atas"
+        android:layout_marginBottom="150dp">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:padding="40dp">
+
+            <TextView
+                android:id="@+id/view_cv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="CV"
+                android:textSize="30dp"
+                android:textStyle="bold"
+                android:layout_gravity="center_horizontal"/>
+
+            <TextView
+                android:id="@+id/viewnama_cv"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Nama"
+                android:layout_marginTop="10dp"
+                android:textSize="20dp"/>
+            <TextView
+                android:id="@+id/viewalamat_cv"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:text="Alamat"
+                android:textSize="20dp"/>
+            <TextView
+                android:id="@+id/viewusia_cv"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Usia"
+                android:textSize="20dp"
+                android:layout_marginTop="10dp"/>
+            <TextView
+                android:id="@+id/viewphone_cv"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="No.Hp"
+                android:textSize="20dp"
+                android:layout_marginTop="10dp"/>
+            <TextView
+                android:id="@+id/viewpendidikan_cv"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Pendidikan"
+                android:textSize="20dp"
+                android:layout_marginTop="10dp"/>
+            <TextView
+                android:id="@+id/viewtawar_cv"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Pekerjaan yang ditawarkan"
+                android:textSize="20dp"
+                android:layout_marginTop="10dp"/>
+            <TextView
+                android:id="@+id/viewkeahlian_cv"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Keahlian"
+                android:textSize="20dp"
+                android:layout_marginTop="10dp"/>
+            <TextView
+                android:id="@+id/viewpengalaman_cv"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Pengalaman"
+                android:textSize="20dp"
+                android:layout_marginTop="10dp"/>
+        </LinearLayout>
+
+    </ScrollView>
+
+
     <com.google.android.material.bottomnavigation.BottomNavigationView
         android:id="@+id/bottom_navi"
         android:layout_width="match_parent"
@@ -63,34 +146,33 @@
         app:itemIconTint="@drawable/selector"
         app:itemTextColor="@drawable/selector"/>
 
-    <TextView
-        android:id="@+id/cv_text"
-        android:layout_width="313dp"
-        android:layout_height="301dp"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="20dp"
-        android:layout_below="@id/frame_atas"
-        android:text="Isi CV"
-        android:textSize="40pt"
-        android:textAlignment="center" />
-
+    <Button
+        android:id="@+id/isicv_btn"
+        android:layout_width="120dp"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="70dp"
+        android:background="@drawable/bentuk_button"
+        android:layout_above="@id/logout_btn"
+        android:text="Isi CV" />
     <Button
         android:id="@+id/editcv_btn"
-        android:layout_width="307dp"
+        android:layout_width="120dp"
         android:layout_height="wrap_content"
-        android:layout_below="@id/cv_text"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="10dp"
         android:background="@drawable/bentuk_button"
+        android:layout_above="@id/logout_btn"
+        android:layout_toRightOf="@id/isicv_btn"
+        android:layout_marginLeft="20dp"
         android:text="Edit CV" />
 
     <Button
         android:id="@+id/logout_btn"
         android:layout_width="309dp"
         android:layout_height="wrap_content"
-        android:layout_below="@id/editcv_btn"
+        android:layout_above="@id/bottom_navi"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="10dp"
+        android:layout_marginBottom="20dp"
         android:background="@drawable/bentuk_button"
         android:text="Logout" />
 

@@ -33,7 +33,6 @@ public class WelcomeScreen extends AppCompatActivity {
 
         if(fAuth.getCurrentUser()!=null){
             startActivity(new Intent(getApplicationContext(),MainActivity.class));
-            finish();
         }
 
         loginWelcome.setOnClickListener(new View.OnClickListener() {

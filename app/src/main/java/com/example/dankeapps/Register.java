@@ -171,11 +171,12 @@ public class Register extends AppCompatActivity {
                          String datebirth = mBirth.getEditText().getText().toString().trim();
                          String email = mEmail.getEditText().getText().toString().trim();
                          String password = mPassword.getEditText().getText().toString().trim();
+                         String userId = fAuth.getCurrentUser().getUid();
 
                          rootNode = FirebaseDatabase.getInstance();
                          databaseReference = rootNode.getReference("Users");
                          UserHelperClass hiperClass = new UserHelperClass(name,username,datebirth,phone,email,password);
-                         databaseReference.child(username).setValue(hiperClass);
+                         databaseReference.child(userId).setValue(hiperClass);
 
                              Toast.makeText(Register.this,"User Created", Toast.LENGTH_SHORT).show();
                              startActivity(new Intent(getApplicationContext(), Login.class));
@@ -185,6 +186,8 @@ public class Register extends AppCompatActivity {
                          }
                      }
                 });
+
+                    mprogressBar.setVisibility(View.VISIBLE);
 
 
             }

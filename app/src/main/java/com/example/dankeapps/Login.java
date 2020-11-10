@@ -34,7 +34,7 @@ import com.google.firebase.database.ValueEventListener;
 
 public class Login extends AppCompatActivity {
 
-    TextInputLayout mUsername, mPassword;
+    TextInputLayout mEmail, mPassword,mUsername;
     ImageView gambarLogo;
     Button loginBtn;
     TextView registerText, forgetpassText, logoText;
@@ -44,16 +44,20 @@ public class Login extends AppCompatActivity {
     DatabaseReference databaseReference;
 
 
-    public Boolean validateUsername (){
-        String val = mUsername.getEditText().getText().toString();
+    public Boolean validateEmail (){
+        String val = mEmail.getEditText().getText().toString();
+        String emailPattern = "[a-zA-Z0-9._-]+@[a-z]+\\.+[a-z]+";
 
-        if (val.isEmpty()) {
-            mUsername.setError("Field cannot be empty");
+        if (val.isEmpty()){
+            mEmail.setError("Field cannot be empty");
+            return false;
+        } else if(!val.matches(emailPattern)){
+            mEmail.setError("Invalid Email");
             return false;
         }
         else{
-            mUsername.setError(null);
-            mUsername.setErrorEnabled(false);
+            mEmail.setError(null);
+            mEmail.setErrorEnabled(false);
             return true;
         }
     }
@@ -74,7 +78,8 @@ public class Login extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
-        mUsername = findViewById(R.id.login_username);
+        mEmail = findViewById(R.id.login_email);
+        //mUsername = findViewById(R.id.login_username);
         mPassword = findViewById(R.id.login_password);
         loginBtn = findViewById(R.id.button_login);
         registerText = findViewById(R.id.create_text);
@@ -84,20 +89,34 @@ public class Login extends AppCompatActivity {
         progressBar = findViewById(R.id.progress_bar);
         fAuth = FirebaseAuth.getInstance();
 
+
         //Tombol Login
         loginBtn.setOnClickListener(new View.OnClickListener() {
 
             //kemungkinan login
             @Override
             public void onClick(View v) {
-                String email = mUsername.getEditText().getText().toString().trim();
+                String email = mEmail.getEditText().getText().toString().trim();
                 String password = mPassword.getEditText().getText().toString().trim();
 
                 //Kemungkinan Error
-                if (!validateUsername() | !validatePassword()) {
+                if (!validateEmail() | !validatePassword()) {
                     return;
                 }else{
-                    isUser();
+                    //isUser();
+
+                    fAuth.signInWithEmailAndPassword(email,password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+                        @Override
+                        public void onComplete(@NonNull Task<AuthResult> task) {
+                            if(task.isSuccessful()){
+                                Toast.makeText(Login.this,"Logged in Succesfully",Toast.LENGTH_SHORT).show();
+                                startActivity(new Intent(getApplicationContext(),MainActivity.class));
+                            }else{
+                                Toast.makeText(Login.this,"Error!!"+task.getException().getMessage(),Toast.LENGTH_SHORT).show();
+                                progressBar.setVisibility(View.GONE);
+                            }
+                        }
+                    });
                 }
                 progressBar.setVisibility(View.VISIBLE);
             }
@@ -161,6 +180,7 @@ public class Login extends AppCompatActivity {
         //End ForgetPass
     }
 
+    //Method Loogin dengan realtime database
     private void isUser() {
         final String userUsername = mUsername.getEditText().getText().toString().trim();
         final String userPassword = mPassword.getEditText().getText().toString().trim();
