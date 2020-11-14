@@ -16,7 +16,6 @@ import com.google.firebase.database.FirebaseDatabase;
 public class WelcomeScreen extends AppCompatActivity {
 
     ImageView welcomeLogo;
-    TextView welcomeText;
     Button loginWelcome, registerWelcome;
     FirebaseAuth fAuth;
 
@@ -26,7 +25,6 @@ public class WelcomeScreen extends AppCompatActivity {
         setContentView(R.layout.activity_welcome_screen);
 
         welcomeLogo = findViewById(R.id.logo_welcome);
-        welcomeText = findViewById(R.id.text_welcome);
         loginWelcome = findViewById(R.id.login_welcome);
         registerWelcome = findViewById(R.id.register_welcome);
         fAuth = FirebaseAuth.getInstance();

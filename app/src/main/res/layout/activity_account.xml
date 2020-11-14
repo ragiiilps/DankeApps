@@ -6,7 +6,6 @@
     android:layout_height="match_parent"
     tools:context=".MainActivity">
 
-
     <RelativeLayout
         android:id="@+id/frame_atas"
         android:layout_width="match_parent"
@@ -101,6 +100,13 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="No.Hp"
+                android:textSize="20dp"
+                android:layout_marginTop="10dp"/>
+            <TextView
+                android:id="@+id/kelamincv_text"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Jenis Kelamin"
                 android:textSize="20dp"
                 android:layout_marginTop="10dp"/>
             <TextView

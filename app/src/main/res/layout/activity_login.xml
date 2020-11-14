@@ -10,26 +10,16 @@
 
     <ImageView
         android:id="@+id/gambar_logo"
-        android:layout_width="187dp"
-        android:layout_height="164dp"
-        android:src="@drawable/logo"
+        android:layout_width="272dp"
+        android:layout_height="263dp"
+        android:layout_marginTop="20dp"
         android:layout_gravity="center_horizontal"
-        android:layout_marginTop="40dp"/>
-
-    <TextView
-        android:id="@+id/logo_text"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Danke!"
-        android:textSize="12pt"
-        android:layout_gravity="center_horizontal"
-        android:layout_marginTop="20dp" />
+        android:src="@drawable/danke_logo" />
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/login_email"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="40dp"
         android:hint="Email"
         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
 
@@ -39,20 +29,6 @@
             android:inputType="textEmailAddress"
             />
     </com.google.android.material.textfield.TextInputLayout>
-
-<!--    <com.google.android.material.textfield.TextInputLayout-->
-<!--        android:id="@+id/login_username"-->
-<!--        android:layout_width="match_parent"-->
-<!--        android:layout_height="wrap_content"-->
-<!--        android:layout_marginTop="40dp"-->
-<!--        android:hint="Username"-->
-<!--        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">-->
-
-<!--        <EditText-->
-<!--            android:layout_width="match_parent"-->
-<!--            android:layout_height="wrap_content"-->
-<!--            android:inputType="text" />-->
-<!--    </com.google.android.material.textfield.TextInputLayout>-->
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/login_password"
@@ -80,13 +56,13 @@
         android:layout_marginLeft="75dp"
         android:layout_marginRight="75dp"
         android:layout_gravity="center_horizontal"
-        android:layout_marginTop="20dp"/>
+        android:layout_marginTop="50dp"/>
 
     <TextView
             android:id="@+id/create_text"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Sign Up for Danke!"
+            android:text="Daftar Danke!"
             android:layout_gravity="center_horizontal"
             android:layout_marginTop="20dp"/>
 
@@ -96,7 +72,7 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
         android:layout_marginTop="10dp"
-        android:text="Forget Password?" />
+        android:text="Lupa Password?" />
 
     <ProgressBar
         android:id="@+id/progress_bar"

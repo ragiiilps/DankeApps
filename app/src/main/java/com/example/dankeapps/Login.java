@@ -37,7 +37,7 @@ public class Login extends AppCompatActivity {
     TextInputLayout mEmail, mPassword,mUsername;
     ImageView gambarLogo;
     Button loginBtn;
-    TextView registerText, forgetpassText, logoText;
+    TextView registerText, forgetpassText;
     ProgressBar progressBar;
     FirebaseAuth fAuth;
     FirebaseDatabase rootNode;
@@ -49,7 +49,7 @@ public class Login extends AppCompatActivity {
         String emailPattern = "[a-zA-Z0-9._-]+@[a-z]+\\.+[a-z]+";
 
         if (val.isEmpty()){
-            mEmail.setError("Field cannot be empty");
+            mEmail.setError("Data tidak boleh kosong");
             return false;
         } else if(!val.matches(emailPattern)){
             mEmail.setError("Invalid Email");
@@ -64,7 +64,7 @@ public class Login extends AppCompatActivity {
     public Boolean validatePassword() {
         String val = mPassword.getEditText().getText().toString();
         if (val.isEmpty()) {
-            mPassword.setError("Field cannot be empty");
+            mPassword.setError("Data tidak boleh kosong");
             return false;
         } else {
             mPassword.setError(null);
@@ -84,7 +84,6 @@ public class Login extends AppCompatActivity {
         loginBtn = findViewById(R.id.button_login);
         registerText = findViewById(R.id.create_text);
         forgetpassText = findViewById(R.id.forget_password);
-        logoText = findViewById(R.id.logo_text);
         gambarLogo = findViewById(R.id.gambar_logo);
         progressBar = findViewById(R.id.progress_bar);
         fAuth = FirebaseAuth.getInstance();
@@ -109,7 +108,7 @@ public class Login extends AppCompatActivity {
                         @Override
                         public void onComplete(@NonNull Task<AuthResult> task) {
                             if(task.isSuccessful()){
-                                Toast.makeText(Login.this,"Logged in Succesfully",Toast.LENGTH_SHORT).show();
+                                Toast.makeText(Login.this,"Login berhasil",Toast.LENGTH_SHORT).show();
                                 startActivity(new Intent(getApplicationContext(),MainActivity.class));
                             }else{
                                 Toast.makeText(Login.this,"Error!!"+task.getException().getMessage(),Toast.LENGTH_SHORT).show();
@@ -139,7 +138,7 @@ public class Login extends AppCompatActivity {
                 final EditText resetEmail = new EditText(v.getContext());
                 AlertDialog.Builder resetPasswordDialog = new AlertDialog.Builder(v.getContext());
                 resetPasswordDialog.setTitle("Reset Password?");
-                resetPasswordDialog.setMessage("Enter Your Email to Receive Reset Link!");
+                resetPasswordDialog.setMessage("Masukan Email Anda untuk Menerima Reset Link!");
                 resetPasswordDialog.setView(resetEmail);
 
                 //tombol Yes
@@ -151,13 +150,13 @@ public class Login extends AppCompatActivity {
                         fAuth.sendPasswordResetEmail(email).addOnSuccessListener(new OnSuccessListener<Void>() {
                             @Override
                             public void onSuccess(Void aVoid) {
-                                Toast.makeText(Login.this, "Reset Link Sent to Your Email", Toast.LENGTH_SHORT).show();
+                                Toast.makeText(Login.this, "Reset Link Berhasil Terkirim", Toast.LENGTH_SHORT).show();
                             }
 
                         }).addOnFailureListener(new OnFailureListener() {
                             @Override
                             public void onFailure(@NonNull Exception e) {
-                                Toast.makeText(Login.this, "Error! Reset Link is't Sent " + e.getMessage(),Toast.LENGTH_SHORT).show();
+                                Toast.makeText(Login.this, "Error! Reset Link Gagal Terkirim " + e.getMessage(),Toast.LENGTH_SHORT).show();
                             }
                         });
 
@@ -180,7 +179,7 @@ public class Login extends AppCompatActivity {
         //End ForgetPass
     }
 
-    //Method Loogin dengan realtime database
+    //Method Login dengan realtime database
     private void isUser() {
         final String userUsername = mUsername.getEditText().getText().toString().trim();
         final String userPassword = mPassword.getEditText().getText().toString().trim();

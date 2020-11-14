@@ -39,12 +39,13 @@ public class Register extends AppCompatActivity {
     FirebaseDatabase rootNode;
     DatabaseReference databaseReference;
     FirebaseAuth fAuth;
+    RadioGroup radioGroup;
 
     public Boolean validateName (){
         String val = mName.getEditText().getText().toString();
 
         if (val.isEmpty()){
-            mName.setError("Field cannot be empty");
+            mName.setError("Data tidak boleh kosong");
             return false;
         }
         else{
@@ -57,10 +58,10 @@ public class Register extends AppCompatActivity {
         String val = mUsername.getEditText().getText().toString();
 
         if (val.isEmpty()){
-            mUsername.setError("Field cannot be empty");
+            mUsername.setError("Data tidak boleh kosong");
             return false;
         }else if(val.length()>=15){
-            mUsername.setError("Username too long");
+            mUsername.setError("Username terlalu panjang");
             return false;
         }
         else{
@@ -74,7 +75,7 @@ public class Register extends AppCompatActivity {
         String emailPattern = "[a-zA-Z0-9._-]+@[a-z]+\\.+[a-z]+";
 
         if (val.isEmpty()){
-            mEmail.setError("Field cannot be empty");
+            mEmail.setError("Data tidak boleh kosong");
             return false;
         } else if(!val.matches(emailPattern)){
             mEmail.setError("Invalid Email");
@@ -90,7 +91,7 @@ public class Register extends AppCompatActivity {
         String val = mNum.getEditText().getText().toString();
 
         if (val.isEmpty()){
-            mNum.setError("Field cannot be empty");
+            mNum.setError("Data tidak boleh kosong");
             return false;
         }
         else{
@@ -103,7 +104,7 @@ public class Register extends AppCompatActivity {
         String val = mBirth.getEditText().getText().toString();
 
         if (val.isEmpty()){
-            mBirth.setError("Field cannot be empty");
+            mBirth.setError("Data tidak boleh kosong");
             return false;
         }
         else{
@@ -120,10 +121,10 @@ public class Register extends AppCompatActivity {
                 "$";
 
         if (val.isEmpty()){
-            mPassword.setError("Field cannot be empty");
+            mPassword.setError("Data tidak boleh kosong");
             return false;
         } else if(!val.matches(passwordVal)){
-            mPassword.setError("Passward to weak");
+            mPassword.setError("Passward terlalu lemah");
             return false;
         }
         else{
@@ -131,6 +132,16 @@ public class Register extends AppCompatActivity {
             mPassword.setErrorEnabled(false);
             return true;
         }
+    }
+    public Boolean validateGender () {
+        int checkedId = radioGroup.getCheckedRadioButtonId();
+        RadioButton selected_gender = radioGroup.findViewById(checkedId);
+
+        if(selected_gender==null){
+            Toast.makeText(Register.this,"Tolong pilih jenis kelamin Anda",Toast.LENGTH_SHORT).show();
+            return false;
+        }
+        return true;
     }
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -146,6 +157,7 @@ public class Register extends AppCompatActivity {
         registerBtn = findViewById(R.id.register_button);
         loginText = findViewById(R.id.login_text);
         mprogressBar = findViewById(R.id.progress_bar);
+        radioGroup = findViewById(R.id.radioBtn);
         fAuth = FirebaseAuth.getInstance();
 
 //        //Tombol Register
@@ -155,7 +167,7 @@ public class Register extends AppCompatActivity {
                 String email = mEmail.getEditText().getText().toString().trim();
                 String password = mPassword.getEditText().getText().toString().trim();
 
-                    if (!validateName()|!validateUsername()| !validateEmail()| !validatePassword()| !validatePhone()| !validateBirth()){
+                    if (!validateName()|!validateUsername()| !validateEmail()| !validatePassword()| !validatePhone()| !validateBirth()|!validateGender()){
                         return;
                     }
 
@@ -171,14 +183,17 @@ public class Register extends AppCompatActivity {
                          String datebirth = mBirth.getEditText().getText().toString().trim();
                          String email = mEmail.getEditText().getText().toString().trim();
                          String password = mPassword.getEditText().getText().toString().trim();
+                         int checkedId = radioGroup.getCheckedRadioButtonId();
+                         RadioButton selected_gender = radioGroup.findViewById(checkedId);
+                         String gender = selected_gender.getText().toString().trim();
                          String userId = fAuth.getCurrentUser().getUid();
 
                          rootNode = FirebaseDatabase.getInstance();
                          databaseReference = rootNode.getReference("Users");
-                         UserHelperClass hiperClass = new UserHelperClass(name,username,datebirth,phone,email,password);
+                         UserHelperClass hiperClass = new UserHelperClass(name,username,datebirth,phone,email,password,gender);
                          databaseReference.child(userId).setValue(hiperClass);
 
-                             Toast.makeText(Register.this,"User Created", Toast.LENGTH_SHORT).show();
+                             Toast.makeText(Register.this,"User berhasil dibuat", Toast.LENGTH_SHORT).show();
                              startActivity(new Intent(getApplicationContext(), Login.class));
                          }else {
                              Toast.makeText(Register.this,"Error!!" + task.getException().getMessage(), Toast.LENGTH_SHORT).show();

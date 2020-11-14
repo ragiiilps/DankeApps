@@ -26,7 +26,7 @@ import com.google.firebase.database.ValueEventListener;
 public class Account extends AppCompatActivity {
 
     Toolbar toolbar;
-    TextView namaText,Vnama,Valamat,Vusia,Vphone,Vpendidikan,Vtawar,Vkeahlian,Vpengalaman, Vcv;
+    TextView namaText,Vnama,Valamat,Vusia,Vphone,Vpendidikan,Vtawar,Vkeahlian,Vpengalaman, Vcv, Vkelamin;
     ImageView profilPic;
     Button notifBtn,editInfoBtn,editCVBtn,logoutBtn,isiCVBtn;
     FirebaseDatabase rootNode;
@@ -42,6 +42,7 @@ public class Account extends AppCompatActivity {
 
         toolbar = findViewById(R.id.toolbar);
 
+        Vkelamin = findViewById(R.id.kelamincv_text);
         isiCVBtn = findViewById(R.id.isicv_btn);
         Vcv = findViewById(R.id.view_cv);
         Vnama = findViewById(R.id.viewnama_cv);
@@ -92,6 +93,7 @@ public class Account extends AppCompatActivity {
                 String tawar = dataSnapshot.child("tawar").getValue(String.class);
                 String keahlian = dataSnapshot.child("keahlian").getValue(String.class);
                 String pengalaman = dataSnapshot.child("pengalaman").getValue(String.class);
+                String gender = dataSnapshot.child("gender").getValue(String.class);
 
                 Vnama.setText("Nama : "+name);
                 Valamat.setText("Alamat : "+alamat);
@@ -101,6 +103,7 @@ public class Account extends AppCompatActivity {
                 Vtawar.setText("Pekerjaan yang ditawarkan : "+tawar);
                 Vkeahlian.setText("Keahlian : "+keahlian);
                 Vpengalaman.setText("Pengalaman bekerja : "+pengalaman);
+                Vkelamin.setText("Jenis Kelamin : "+gender);
             }
 
             @Override

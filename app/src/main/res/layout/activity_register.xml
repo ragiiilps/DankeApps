@@ -13,7 +13,7 @@
         android:id="@+id/fullname_edit"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="Full Name"
+        android:hint="Nama Lengkap"
         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
 
         <EditText
@@ -41,7 +41,7 @@
         android:id="@+id/birth_edit"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="Date Birth"
+        android:hint="Tanggal Lahir"
 
          style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
 
@@ -60,7 +60,7 @@
         <EditText
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Phone"
+            android:hint="No.Hp"
             android:inputType="number"
             />
     </com.google.android.material.textfield.TextInputLayout>
@@ -94,13 +94,34 @@
             />
     </com.google.android.material.textfield.TextInputLayout>
 
+    <RadioGroup
+        android:id="@+id/radioBtn"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:orientation="horizontal">
+
+        <RadioButton
+            android:layout_width="123dp"
+            android:layout_height="match_parent"
+            android:text="Laki-laki"
+            android:textSize="8pt"/>
+
+        <RadioButton
+            android:layout_width="160dp"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="50dp"
+            android:text="Perempuan"
+            android:textSize="8pt"/>
+    </RadioGroup>
+
     <Button
         android:id="@+id/register_button"
         android:layout_width="200dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="40dp"
         android:background="@drawable/bentuk_button"
-        android:text="Sign Up"
+        android:text="Daftar"
         android:textColor="@color/white"
         android:layout_gravity="center_horizontal"
         android:textSize="20dp" />
@@ -109,7 +130,7 @@
         android:id="@+id/login_text"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Already Registered? Log In"
+        android:text="Sudah Terdaftar? Login"
         android:layout_gravity="center_horizontal"
         android:layout_marginTop="10dp"/>
 

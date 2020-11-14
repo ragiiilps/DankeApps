@@ -2,17 +2,18 @@ package com.example.dankeapps;
 
 public class UserHelperClass {
 
-    String name, username, datebirth, phone, email, password;
+    String name, username, datebirth, phone, email, password, gender;
 
 
 
-    public UserHelperClass(String name, String username, String datebirth, String phone, String email, String password) {
+    public UserHelperClass(String name, String username, String datebirth, String phone, String email, String password, String gender) {
         this.name = name;
         this.username = username;
         this.datebirth = datebirth;
         this.phone = phone;
         this.email = email;
         this.password = password;
+        this.gender = gender;
     }
 
     public String getName() {
@@ -61,5 +62,13 @@ public class UserHelperClass {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    public String getGender(){
+        return gender;
+    }
+
+    public void setGender(String gender) {
+        this.gender = gender;
     }
 }

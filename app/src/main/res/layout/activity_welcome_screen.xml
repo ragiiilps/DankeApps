@@ -10,29 +10,19 @@
 
     <ImageView
         android:id="@+id/logo_welcome"
-        android:layout_width="136dp"
-        android:layout_height="144dp"
+        android:layout_width="236dp"
+        android:layout_height="232dp"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="150dp"
-        android:src="@drawable/logo" />
+        android:layout_marginTop="180dp"
+        android:src="@drawable/danke_logo" />
 
-    <TextView
-        android:id="@+id/text_welcome"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Danke!"
-        android:textSize="12pt"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="20dp"
-        android:layout_below="@id/logo_welcome"/>
 
     <Button
         android:id="@+id/login_welcome"
         android:layout_width="117dp"
         android:layout_height="wrap_content"
-        android:layout_below="@id/text_welcome"
+        android:layout_below="@id/logo_welcome"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="100dp"
         android:background="@drawable/bentuk_button"
         android:textColor="@color/white"
         android:text="Login" />
@@ -46,5 +36,5 @@
         android:layout_marginTop="20dp"
         android:background="@drawable/bentuk_button"
         android:textColor="@color/white"
-        android:text="Sign Up" />
+        android:text="Daftar" />
 </RelativeLayout>

@@ -2,11 +2,11 @@ package com.example.dankeapps;
 
 public class DataHelperClass {
 
-    String name, alamat, usia, phone,pendidikan, tawar, keahlian, pengalaman;
+    String name, alamat, usia, phone,pendidikan, tawar, keahlian, pengalaman,gender;
 
 
 
-    public DataHelperClass(String name, String alamat, String usia, String phone,String pendidikan, String tawar, String keahlian, String pengalaman) {
+    public DataHelperClass(String name, String alamat, String usia, String phone,String pendidikan, String tawar, String keahlian, String pengalaman, String gender) {
         this.name = name;
         this.alamat = alamat;
         this.usia = usia;
@@ -15,6 +15,7 @@ public class DataHelperClass {
         this.tawar = tawar;
         this.keahlian = keahlian;
         this.pengalaman = pengalaman;
+        this.gender = gender;
     }
 
     public String getName() {
@@ -78,5 +79,13 @@ public class DataHelperClass {
 
     public void setPengalaman(String pengalaman) {
         this.pengalaman = pengalaman;
+    }
+
+    public String getGender (){
+        return gender;
+    }
+
+    public void setGender(String gender) {
+        this.gender = gender;
     }
 }
