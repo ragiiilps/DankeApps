@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="130dp"
+    android:layout_height="180dp"
+    xmlns:card_view="http://schemas.android.com/apk/res-auto"
+    android:adjustViewBounds="true"
+    android:background="#BAB6B6">
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/card_view_content"
+        android:layout_width="120dp"
+        android:layout_height="170dp"
+        android:layout_gravity="center"
+        android:layout_margin="5dp"
+        android:elevation="3dp"
+        card_view:cardCornerRadius="0dp"
+        android:clickable="true"
+        android:focusable="true">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <ImageView
+                android:id="@+id/content_thumbnail"
+                android:layout_width="110dp"
+                android:layout_height="120dp"
+                android:paddingTop="5dp"
+                android:layout_centerHorizontal="true"
+                android:background="@mipmap/ic_launcher"
+                android:scaleType="fitXY"/>
+
+            <TextView
+                android:id="@+id/card_content_judul"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/content_thumbnail"
+                android:paddingTop="5dp"
+                android:paddingLeft="5dp"
+                android:hint="judul"
+                android:textColor="@color/black"
+                android:textSize="12sp"/>
+
+            <TextView
+                android:id="@+id/card_content_upah"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/card_content_judul"
+                android:paddingTop="5dp"
+                android:paddingBottom="5dp"
+                android:paddingLeft="5dp"
+                android:hint="upah"
+                android:textColor="@color/black"
+                android:textSize="10sp"/>
+        </RelativeLayout>
+
+    </androidx.cardview.widget.CardView>
+
+</LinearLayout>

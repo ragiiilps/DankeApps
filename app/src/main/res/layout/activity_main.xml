@@ -6,12 +6,24 @@
     android:layout_height="match_parent"
     tools:context=".MainActivity">
 
-    <view class="androidx.appcompat.app.AlertController$RecycleListView"
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recyclerView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_above="@id/bottom_navi">
+        android:divider="#00000000"/>
 
-    </view>
+    <Button
+        android:id="@+id/UpJasaBtn"
+        android:text="Post"
+        android:textColor="@color/white"
+        android:layout_width="120dp"
+        android:layout_height="wrap_content"
+        android:background="@drawable/bentuk_button"
+        android:layout_centerHorizontal="true"
+        android:layout_above="@+id/bottom_navi"
+        android:padding="10dp"
+        android:layout_margin="20dp"/>
+
     <com.google.android.material.bottomnavigation.BottomNavigationView
         android:id="@+id/bottom_navi"
         android:layout_width="match_parent"
@@ -21,6 +33,5 @@
         app:itemBackground="@color/ijo"
         app:itemIconTint="@drawable/selector"
         app:itemTextColor="@drawable/selector"/>
-
 
 </RelativeLayout>
