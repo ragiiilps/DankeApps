@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".content.DetailContent">
+
+    <androidx.core.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="10dp"
+        android:padding="10dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:orientation="vertical">
+
+            <ImageView
+                android:id="@+id/detailThumbnailContent"
+                android:layout_width="match_parent"
+                android:layout_height="200dp"
+                android:background="@color/ijomuda"
+                android:scaleType="centerCrop"/>
+            <TextView
+                android:id="@+id/detailJudul"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:hint="Judul Jasa"
+                android:paddingTop="10dp"
+                android:textSize="20sp"
+                android:textStyle="bold"/>
+            <TextView
+                android:id="@+id/detailUpah"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:hint="Upah"
+                android:paddingTop="7dp"
+                android:textSize="17sp"/>
+            <TextView
+                android:id="@+id/detailDeskrip"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:hint="Deskripsi"
+                android:textSize="17sp"
+                android:paddingTop="7dp"
+                android:paddingBottom="10dp"/>
+
+        </LinearLayout>
+
+    </androidx.core.widget.NestedScrollView>
+
+</LinearLayout>

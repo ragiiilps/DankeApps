@@ -1,4 +1,4 @@
-package com.example.dankeapps;
+package com.example.dankeapps.content;
 
 import com.google.firebase.database.IgnoreExtraProperties;
 

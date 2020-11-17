@@ -5,11 +5,11 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context=".PostJasa">
+    tools:context=".content.PostJasa">
 
     <include
-        android:id="@+id/toolbar"
-        layout="@layout/toolbar" />
+        android:id="@+id/toolbar4"
+        layout="@layout/toolbar4" />
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/judulPst"

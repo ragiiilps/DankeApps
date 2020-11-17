@@ -1,60 +1,50 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="130dp"
-    android:layout_height="180dp"
-    xmlns:card_view="http://schemas.android.com/apk/res-auto"
-    android:adjustViewBounds="true"
-    android:background="#BAB6B6">
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:gravity="center"
+    xmlns:cardview="http://schemas.android.com/apk/res-auto"
+    android:layout_margin="5dp"
+    android:clickable="true">
 
     <androidx.cardview.widget.CardView
-        android:id="@+id/card_view_content"
-        android:layout_width="120dp"
-        android:layout_height="170dp"
-        android:layout_gravity="center"
-        android:layout_margin="5dp"
-        android:elevation="3dp"
-        card_view:cardCornerRadius="0dp"
-        android:clickable="true"
-        android:focusable="true">
+        android:layout_width="180dp"
+        android:layout_height="wrap_content"
+        cardview:cardCornerRadius="4dp">
 
-        <RelativeLayout
+        <LinearLayout
+            android:orientation="vertical"
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="match_parent"
+            android:background="#00BCD4">
 
             <ImageView
                 android:id="@+id/content_thumbnail"
-                android:layout_width="110dp"
+                android:layout_width="160dp"
                 android:layout_height="120dp"
-                android:paddingTop="5dp"
-                android:layout_centerHorizontal="true"
-                android:background="@mipmap/ic_launcher"
-                android:scaleType="fitXY"/>
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="10dp"
+                android:scaleType="fitXY"
+                android:background="#C4F888"/>
 
             <TextView
                 android:id="@+id/card_content_judul"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_below="@id/content_thumbnail"
-                android:paddingTop="5dp"
-                android:paddingLeft="5dp"
-                android:hint="judul"
-                android:textColor="@color/black"
-                android:textSize="12sp"/>
+                android:layout_height="match_parent"
+                android:hint="Judul"
+                android:layout_marginStart="10dp"
+                android:layout_marginTop="5dp"/>
 
             <TextView
                 android:id="@+id/card_content_upah"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/card_content_judul"
-                android:paddingTop="5dp"
-                android:paddingBottom="5dp"
-                android:paddingLeft="5dp"
-                android:hint="upah"
-                android:textColor="@color/black"
-                android:textSize="10sp"/>
-        </RelativeLayout>
+                android:layout_height="match_parent"
+                android:layout_marginStart="10dp"
+                android:layout_marginTop="5dp"
+                android:layout_marginBottom="10dp"
+                android:hint="Upah"/>
 
+        </LinearLayout>
     </androidx.cardview.widget.CardView>
 
 </LinearLayout>

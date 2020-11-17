@@ -2,12 +2,11 @@ package com.example.dankeapps;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+
 import androidx.cardview.widget.CardView;
-import androidx.paging.PagedList;
 import androidx.recyclerview.widget.GridLayoutManager;
-import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
+
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -18,27 +17,21 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
-import android.widget.Toast;
 
+
+import com.example.dankeapps.content.DetailContent;
+import com.example.dankeapps.content.ModelContent;
+import com.example.dankeapps.content.PostJasa;
 import com.firebase.ui.firestore.FirestoreRecyclerAdapter;
 import com.firebase.ui.firestore.FirestoreRecyclerOptions;
-import com.firebase.ui.firestore.paging.FirestorePagingAdapter;
-import com.firebase.ui.firestore.paging.FirestorePagingOptions;
-import com.firebase.ui.firestore.paging.LoadingState;
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.snackbar.Snackbar;
-import com.google.android.material.tabs.TabLayout;
 import com.google.firebase.FirebaseApp;
 import com.google.firebase.FirebaseOptions;
-import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.firestore.CollectionReference;
-import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreException;
 import com.google.firebase.firestore.Query;
-import com.google.firebase.firestore.QuerySnapshot;
+
 
 public class MainActivity extends AppCompatActivity {
 
@@ -47,7 +40,6 @@ public class MainActivity extends AppCompatActivity {
     FirebaseApp mMySecondApp;
     FirebaseFirestore mSecondFirestore;
     FirestoreRecyclerAdapter adapter;
-    LinearLayoutManager linearLayoutManager;
     GridLayoutManager gridLayoutManager;
 
     @Override
@@ -92,21 +84,30 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void getContentList() {
-        Query query = mSecondFirestore.collection("Content");
+        final Query query = mSecondFirestore.collection("Content");
 
-        FirestoreRecyclerOptions<ModelContent> Content = new FirestoreRecyclerOptions.Builder<ModelContent>()
+        final FirestoreRecyclerOptions<ModelContent> Content = new FirestoreRecyclerOptions.Builder<ModelContent>()
                 .setQuery(query, ModelContent.class)
                 .build();
         adapter = new FirestoreRecyclerAdapter<ModelContent, ContentHolder>(Content) {
             @Override
-            protected void onBindViewHolder(@NonNull ContentHolder holder, int position, @NonNull final ModelContent model) {
+            protected void onBindViewHolder(@NonNull final ContentHolder holder, final int position, @NonNull final ModelContent model) {
                 holder.mJudulPst.setText(model.getJudul());
                 holder.mUpahPst.setText(model.getUpah());
 
                 holder.itemView.setOnClickListener(new View.OnClickListener() {
                     @Override public void onClick(View v) {
-                        Snackbar.make(mRecyclerView, model.getJudul() + ", " + model.getUpah(), Snackbar.LENGTH_LONG)
-                                .setAction("Action", null).show();
+                        Intent i = new Intent(getApplicationContext(), DetailContent.class);
+
+                        String Judul = model.getJudul();
+                        String Upah = model.getUpah();
+                        String Deskripsi = model.getDeskripsi();
+
+                        i.putExtra("Judul", Judul);
+                        i.putExtra("Upah", Upah);
+                        i.putExtra("Deskripsi", Deskripsi);
+
+                        startActivity(i);
                     }
                 });
             }
@@ -135,6 +136,17 @@ public class MainActivity extends AppCompatActivity {
             super(itemView);
             mJudulPst = itemView.findViewById(R.id.card_content_judul);
             mUpahPst = itemView.findViewById(R.id.card_content_upah);
+
+            /*itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent intent = new Intent(getApplicationContext(), DetailContent.class);
+
+                    intent.putExtra();
+
+                    startActivity(intent);
+                }
+            });*/
         }
     }
 
@@ -169,9 +181,8 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void init() {
-        linearLayoutManager = new LinearLayoutManager(getApplicationContext(),
-                LinearLayoutManager.VERTICAL, false);
-        mRecyclerView.setLayoutManager(linearLayoutManager);
+        gridLayoutManager = new GridLayoutManager(getApplicationContext(), 2);
+        mRecyclerView.setLayoutManager(gridLayoutManager);
     }
 
 }
