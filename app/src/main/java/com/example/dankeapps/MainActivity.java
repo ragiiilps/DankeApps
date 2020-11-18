@@ -16,6 +16,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.SearchView;
 import android.widget.TextView;
 
 
@@ -41,6 +42,7 @@ public class MainActivity extends AppCompatActivity {
     FirebaseFirestore mSecondFirestore;
     FirestoreRecyclerAdapter adapter;
     GridLayoutManager gridLayoutManager;
+    SearchView mSearchView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
