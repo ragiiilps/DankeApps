@@ -3,20 +3,20 @@ package com.example.dankeapps;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
-import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.SearchView;
 import android.widget.TextView;
 
 
@@ -26,7 +26,6 @@ import com.example.dankeapps.content.PostJasa;
 import com.firebase.ui.firestore.FirestoreRecyclerAdapter;
 import com.firebase.ui.firestore.FirestoreRecyclerOptions;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
-import com.google.android.material.snackbar.Snackbar;
 import com.google.firebase.FirebaseApp;
 import com.google.firebase.FirebaseOptions;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -40,21 +39,23 @@ public class MainActivity extends AppCompatActivity {
     RecyclerView mRecyclerView;
     FirebaseApp mMySecondApp;
     FirebaseFirestore mSecondFirestore;
-    FirestoreRecyclerAdapter adapter;
+    FirestoreRecyclerAdapter<ModelContent, ContentHolder> adapter;
     GridLayoutManager gridLayoutManager;
-    SearchView mSearchView;
+    TextView mSearchView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         mRecyclerView = findViewById(R.id.recyclerView);
+        mSearchView = findViewById(R.id.BarCari);
+        UpJasaBtn = findViewById(R.id.UpJasaBtn);
 
         initSecondFirebaseAcct();
         init();
         getContentList();
+        initSearch();
 
-        UpJasaBtn = findViewById(R.id.UpJasaBtn);
         UpJasaBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -86,9 +87,10 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void getContentList() {
-        final Query query = mSecondFirestore.collection("Content");
+        Query query = mSecondFirestore.collection("Content")
+                .orderBy("createdOn", Query.Direction.DESCENDING);
 
-        final FirestoreRecyclerOptions<ModelContent> Content = new FirestoreRecyclerOptions.Builder<ModelContent>()
+        FirestoreRecyclerOptions<ModelContent> Content = new FirestoreRecyclerOptions.Builder<ModelContent>()
                 .setQuery(query, ModelContent.class)
                 .build();
         adapter = new FirestoreRecyclerAdapter<ModelContent, ContentHolder>(Content) {
@@ -139,16 +141,6 @@ public class MainActivity extends AppCompatActivity {
             mJudulPst = itemView.findViewById(R.id.card_content_judul);
             mUpahPst = itemView.findViewById(R.id.card_content_upah);
 
-            /*itemView.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    Intent intent = new Intent(getApplicationContext(), DetailContent.class);
-
-                    intent.putExtra();
-
-                    startActivity(intent);
-                }
-            });*/
         }
     }
 
@@ -185,6 +177,37 @@ public class MainActivity extends AppCompatActivity {
     private void init() {
         gridLayoutManager = new GridLayoutManager(getApplicationContext(), 2);
         mRecyclerView.setLayoutManager(gridLayoutManager);
+    }
+
+    public void initSearch(){
+        mSearchView.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                Query query;
+                if (s.toString().isEmpty()){
+                    query = mSecondFirestore.collection("Content")
+                            .orderBy("createdOn", Query.Direction.DESCENDING);
+                } else {
+                    query = mSecondFirestore.collection("Content")
+                            .whereEqualTo("Judul", s.toString())
+                            .orderBy("createdOn", Query.Direction.DESCENDING);
+                }
+                FirestoreRecyclerOptions<ModelContent> Content = new FirestoreRecyclerOptions.Builder<ModelContent>()
+                        .setQuery(query, ModelContent.class)
+                        .build();
+                adapter.updateOptions(Content);
+            }
+        });
     }
 
 }

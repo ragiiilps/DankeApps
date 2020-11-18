@@ -14,15 +14,14 @@
         app:cardCornerRadius="10dp"
         android:layout_marginTop="-10dp">
 
-        <SearchView
+        <EditText
             android:id="@+id/BarCari"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_marginTop="10dp"
-            android:queryHint="Search here"
-            android:iconifiedByDefault="false">
-
-        </SearchView>
+            android:layout_height="wrap_content"
+            android:layout_margin="12dp"
+            android:inputType="textAutoComplete"
+            android:hint="Cari Jasa"
+            android:drawableStart="@android:drawable/ic_menu_search"/>
 
     </androidx.cardview.widget.CardView>
 

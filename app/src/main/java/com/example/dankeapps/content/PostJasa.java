@@ -21,6 +21,7 @@ import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
@@ -79,15 +80,11 @@ public class PostJasa extends AppCompatActivity {
 
     private void uploadData(String judul, String Upah, String Deskrpsi) {
         String id = UUID.randomUUID().toString();
-        SimpleDateFormat dateF = new SimpleDateFormat("EEE, d MMM yyyy", Locale.getDefault());
-        SimpleDateFormat timeF = new SimpleDateFormat("HH:mm", Locale.getDefault());
-        String date = dateF.format(Calendar.getInstance().getTime());
-        String time = timeF.format(Calendar.getInstance().getTime());
+        String currentDateTime = java.text.DateFormat.getDateTimeInstance().format(new Date());
 
         Map<String, Object> doc = new HashMap<>();
         doc.put("id", id);
-        doc.put("date", date);
-        doc.put("time", time);
+        doc.put("createdOn", currentDateTime);
         doc.put("Judul", judul);
         doc.put("Upah", Upah);
         doc.put("Deskripsi", Deskrpsi);
