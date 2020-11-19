@@ -17,13 +17,13 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="50dp"
         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-        android:layout_gravity="center_horizontal">
+        android:layout_gravity="center_horizontal"
+        android:hint="Judul Jasa">
 
-        <EditText
+        <com.google.android.material.textfield.TextInputEditText
             android:layout_width="350dp"
             android:layout_height="wrap_content"
-            android:inputType="text"
-            android:hint="Judul Jasa"/>
+            android:inputType="text"/>
     </com.google.android.material.textfield.TextInputLayout>
 
     <com.google.android.material.textfield.TextInputLayout
@@ -32,13 +32,13 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-        android:layout_gravity="center_horizontal">
+        android:layout_gravity="center_horizontal"
+        android:hint="Besaran upah">
 
-        <EditText
+        <com.google.android.material.textfield.TextInputEditText
             android:layout_width="350dp"
             android:layout_height="wrap_content"
-            android:hint="Besaran upah"
-            android:inputType="text" />
+            android:inputType="number"/>
     </com.google.android.material.textfield.TextInputLayout>
 
     <com.google.android.material.textfield.TextInputLayout
@@ -48,13 +48,13 @@
         android:layout_marginTop="10dp"
         android:minHeight="200dp"
         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-        android:layout_gravity="center_horizontal">
+        android:layout_gravity="center_horizontal"
+        android:hint="Deskripsi jasa yang ingin ditawarkan">
 
-        <EditText
+        <com.google.android.material.textfield.TextInputEditText
             android:layout_width="350dp"
             android:layout_height="wrap_content"
             android:minHeight="200dp"
-            android:hint="Deskripsi jasa yang ingin ditawarkan"
             android:inputType="textMultiLine|textCapSentences"
             android:gravity="start"/>
     </com.google.android.material.textfield.TextInputLayout>

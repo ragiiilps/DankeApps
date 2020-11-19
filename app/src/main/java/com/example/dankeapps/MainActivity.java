@@ -7,6 +7,7 @@ import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.Editable;
@@ -94,10 +95,11 @@ public class MainActivity extends AppCompatActivity {
                 .setQuery(query, ModelContent.class)
                 .build();
         adapter = new FirestoreRecyclerAdapter<ModelContent, ContentHolder>(Content) {
+            @SuppressLint("SetTextI18n")
             @Override
             protected void onBindViewHolder(@NonNull final ContentHolder holder, final int position, @NonNull final ModelContent model) {
                 holder.mJudulPst.setText(model.getJudul());
-                holder.mUpahPst.setText(model.getUpah());
+                holder.mUpahPst.setText("Rp. " + model.getUpah());
 
                 holder.itemView.setOnClickListener(new View.OnClickListener() {
                     @Override public void onClick(View v) {
@@ -194,13 +196,21 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void afterTextChanged(Editable s) {
                 Query query;
+                String cari;
                 if (s.toString().isEmpty()){
                     query = mSecondFirestore.collection("Content")
                             .orderBy("createdOn", Query.Direction.DESCENDING);
                 } else {
+                    String[] search = s.toString().split(" ");
+                    for (int i = 0; i < search.length; i++){
+                        search[i] = search[i].substring(0, 1).toUpperCase() +
+                                search[i].substring(1).toLowerCase();
+                    }
+                    cari = String.join(" ", search);
+
                     query = mSecondFirestore.collection("Content")
-                            .whereEqualTo("Judul", s.toString())
-                            .orderBy("createdOn", Query.Direction.DESCENDING);
+                            .whereGreaterThanOrEqualTo("Judul", cari)
+                            .whereLessThan("Judul", cari+"z");
                 }
                 FirestoreRecyclerOptions<ModelContent> Content = new FirestoreRecyclerOptions.Builder<ModelContent>()
                         .setQuery(query, ModelContent.class)

@@ -2,6 +2,7 @@ package com.example.dankeapps.content;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
 import android.widget.ImageView;
@@ -13,6 +14,7 @@ public class DetailContent extends AppCompatActivity {
     TextView detailJudul, detailUpah, detailDeskripsi;
     ImageView detailThumbnail;
 
+    @SuppressLint("SetTextI18n")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -29,7 +31,7 @@ public class DetailContent extends AppCompatActivity {
         String Deskripsi = intent.getExtras().getString("Deskripsi");
 
         detailJudul.setText(Judul);
-        detailUpah.setText(Upah);
+        detailUpah.setText("Rp. " + Upah);
         detailDeskripsi.setText(Deskripsi);
 
     }

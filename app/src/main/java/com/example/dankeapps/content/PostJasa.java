@@ -69,7 +69,14 @@ public class PostJasa extends AppCompatActivity {
         mPostBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String judul = mJudulPst.getEditText().getText().toString().trim();
+                String title = mJudulPst.getEditText().getText().toString().trim();
+                String[] cap = title.split(" ");
+                for (int i = 0; i < cap.length; i++){
+                    cap[i] = cap[i].substring(0, 1).toUpperCase() +
+                            cap[i].substring(1).toLowerCase();
+                }
+                String judul = String.join(" ", cap);
+
                 String Deskrpsi = mDeskripsiPst.getEditText().getText().toString().trim();
                 String Upah = mUpahPst.getEditText().getText().toString().trim();
 
