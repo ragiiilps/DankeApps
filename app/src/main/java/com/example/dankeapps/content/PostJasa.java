@@ -41,7 +41,7 @@ import java.util.UUID;
 public class PostJasa extends AppCompatActivity {
 
     TextInputLayout mJudulPst, mUpahPst, mDeskripsiPst;
-    TextView imgUrl;
+    TextView imgUrl, saveUri;
     Button mPostBtn, mImageBtn;
     ProgressBar pb;
     FirebaseAuth mAuth;
@@ -86,8 +86,10 @@ public class PostJasa extends AppCompatActivity {
         mPostBtn = findViewById(R.id.PostBtn);
         mImageBtn = findViewById(R.id.imagePstBtn);
         imgUrl = findViewById(R.id.imgUrl);
+        saveUri = findViewById(R.id.saveUri);
+        pb = findViewById(R.id.progressbar);
 
-        pb = new ProgressBar(this);
+
         initSecondFirebaseAcct();
 
         mImageBtn.setOnClickListener(new View.OnClickListener() {
@@ -154,10 +156,13 @@ public class PostJasa extends AppCompatActivity {
                             @Override
                             public void onSuccess(Uri uri) {
                                 Uri downloadUri = uri;
-                                imgUrl.setText(downloadUri.toString());
+                                imgUrl.setText(R.string.ganti);
+                                saveUri.setText(downloadUri.toString());
+                                saveUri.setVisibility(View.GONE);
                             }
                         });
                         Toast.makeText(PostJasa.this, "Image Uploaded",  Toast.LENGTH_SHORT).show();
+                        pb.setVisibility(View.GONE);
 
                     }
                 })
@@ -165,15 +170,17 @@ public class PostJasa extends AppCompatActivity {
                     @Override
                     public void onFailure(@NonNull Exception exception) {
                         Toast.makeText(PostJasa.this, "Failed", Toast.LENGTH_SHORT).show();
+                        pb.setVisibility(View.GONE);
                     }
                 });
+        pb.setVisibility(View.VISIBLE);
     }
 
     //metode upload data ke firestore
     private void uploadData(String judul, String Upah, String Deskrpsi) {
         String id = UUID.randomUUID().toString();
         String currentDateTime = java.text.DateFormat.getDateTimeInstance().format(new Date());
-        String Guri = imgUrl.getText().toString();
+        String Guri = saveUri.getText().toString();
 
         Map<String, Object> doc = new HashMap<>();
         doc.put("id", id);
