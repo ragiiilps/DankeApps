@@ -5,17 +5,29 @@ import com.google.firebase.database.IgnoreExtraProperties;
 @IgnoreExtraProperties
 public class ModelContent {
 
+    String id;
     String Judul;
     String Upah;
     String Deskripsi;
+    String uri;
 
     public ModelContent() {
     }
 
-    public ModelContent(String judul, String upah, String deskripsi) {
+    public ModelContent(String id, String judul, String upah, String deskripsi, String uri) {
+        this.id = id;
         this.Judul = judul;
         this.Upah = upah;
         this.Deskripsi = deskripsi;
+        this.uri = uri;
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
     }
 
     public String getJudul() {
@@ -40,5 +52,13 @@ public class ModelContent {
 
     public void setDeskripsi(String deskripsi) {
         this.Deskripsi = deskripsi;
+    }
+
+    public String getUri() {
+        return uri;
+    }
+
+    public void setUri(String uri) {
+        this.uri = uri;
     }
 }

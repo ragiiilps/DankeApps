@@ -18,9 +18,11 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 
+import com.bumptech.glide.Glide;
 import com.example.dankeapps.content.DetailContent;
 import com.example.dankeapps.content.ModelContent;
 import com.example.dankeapps.content.PostJasa;
@@ -57,6 +59,7 @@ public class MainActivity extends AppCompatActivity {
         getContentList();
         initSearch();
 
+        //button buat upload jasa
         UpJasaBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -87,6 +90,7 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
+    //metode ambil konten dari firestore
     private void getContentList() {
         Query query = mSecondFirestore.collection("Content")
                 .orderBy("createdOn", Query.Direction.DESCENDING);
@@ -100,15 +104,19 @@ public class MainActivity extends AppCompatActivity {
             protected void onBindViewHolder(@NonNull final ContentHolder holder, final int position, @NonNull final ModelContent model) {
                 holder.mJudulPst.setText(model.getJudul());
                 holder.mUpahPst.setText("Rp. " + model.getUpah());
+                Glide.with(getApplicationContext()).load(model.getUri()).into(holder.mThumbnail);
 
+                //passing data ke detail konten
                 holder.itemView.setOnClickListener(new View.OnClickListener() {
                     @Override public void onClick(View v) {
                         Intent i = new Intent(getApplicationContext(), DetailContent.class);
 
+                        String uri = model.getUri();
                         String Judul = model.getJudul();
                         String Upah = model.getUpah();
                         String Deskripsi = model.getDeskripsi();
 
+                        i.putExtra("uri", uri);
                         i.putExtra("Judul", Judul);
                         i.putExtra("Upah", Upah);
                         i.putExtra("Deskripsi", Deskripsi);
@@ -135,13 +143,16 @@ public class MainActivity extends AppCompatActivity {
         mRecyclerView.setAdapter(adapter);
     }
 
+    //holder dari content
     public class ContentHolder extends RecyclerView.ViewHolder{
         private TextView mJudulPst, mUpahPst;
+        private ImageView mThumbnail;
 
         public ContentHolder(@NonNull View itemView) {
             super(itemView);
             mJudulPst = itemView.findViewById(R.id.card_content_judul);
             mUpahPst = itemView.findViewById(R.id.card_content_upah);
+            mThumbnail = itemView.findViewById(R.id.content_thumbnail);
 
         }
     }
@@ -158,12 +169,14 @@ public class MainActivity extends AppCompatActivity {
         adapter.startListening();
     }
 
+    //inisialisasi 2nd firebaseapp
     private void initSecondFirebaseAcct(){
         FirebaseOptions options = new FirebaseOptions.Builder()
                 .setProjectId("danke-apps")
                 .setApplicationId("1:680412911024:android:339505bcd4b06c9b527275")
                 .setApiKey("AIzaSyB52R0Y-ZM2_4xHmxUNBp2Avw0oEGVYGpE")
                 .setDatabaseUrl("https://danke-apps.firebaseio.com")
+                .setStorageBucket("danke-apps.appspot.com")
                 .build();
         try {
             FirebaseApp.initializeApp(this, options, "dankeapps");
@@ -176,11 +189,13 @@ public class MainActivity extends AppCompatActivity {
         mSecondFirestore = FirebaseFirestore.getInstance(mMySecondApp);
     }
 
+    //inisialisasi recylerview
     private void init() {
         gridLayoutManager = new GridLayoutManager(getApplicationContext(), 2);
         mRecyclerView.setLayoutManager(gridLayoutManager);
     }
 
+    //inisialisasi metode Firestore search
     public void initSearch(){
         mSearchView.addTextChangedListener(new TextWatcher() {
             @Override

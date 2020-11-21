@@ -59,6 +59,30 @@
             android:gravity="start"/>
     </com.google.android.material.textfield.TextInputLayout>
 
+    <RelativeLayout
+        android:layout_width="350dp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginTop="10dp">
+
+        <Button
+            android:id="@+id/imagePstBtn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:hint="Add"/>
+
+        <TextView
+            android:id="@+id/imgUrl"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toEndOf="@+id/imagePstBtn"
+            android:hint="tambah gambar"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="5dp"/>
+
+    </RelativeLayout>
+
+
     <Button
         android:id="@+id/PostBtn"
         android:text="Post"
