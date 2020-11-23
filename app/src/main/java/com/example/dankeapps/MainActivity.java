@@ -130,11 +130,13 @@ public class MainActivity extends AppCompatActivity {
                     @Override public void onClick(View v) {
                         Intent i = new Intent(getApplicationContext(), DetailContent.class);
 
+                        String id = model.getId();
                         String uri = model.getUri();
                         String Judul = model.getJudul();
                         int Upah = model.getUpah();
                         String Deskripsi = model.getDeskripsi();
 
+                        i.putExtra("id", id);
                         i.putExtra("uri", uri);
                         i.putExtra("Judul", Judul);
                         i.putExtra("Upah", Upah);
@@ -185,7 +187,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     public void onStop() {
         super.onStop();
-        adapter.startListening();
+        adapter.stopListening();
     }
 
     //inisialisasi 2nd firebaseapp
