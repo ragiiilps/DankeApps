@@ -4,7 +4,8 @@
     android:layout_height="match_parent"
     xmlns:tools="http://schemas.android.com/tools"
     tools:context=".content.FilterContent"
-    android:padding="10dp">
+    android:padding="10dp"
+    android:background="@drawable/pop_bg">
 
     <RelativeLayout
         android:id="@+id/filter_bar"
