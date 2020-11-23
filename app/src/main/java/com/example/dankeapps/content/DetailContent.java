@@ -1,13 +1,11 @@
 package com.example.dankeapps.content;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.annotation.SuppressLint;
-import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
-import android.media.Image;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -30,6 +28,11 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
+import com.mapbox.mapboxsdk.Mapbox;
+import com.mapbox.mapboxsdk.maps.MapView;
+import com.mapbox.mapboxsdk.maps.MapboxMap;
+import com.mapbox.mapboxsdk.maps.OnMapReadyCallback;
+import com.mapbox.mapboxsdk.maps.Style;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -46,11 +49,13 @@ public class DetailContent extends AppCompatActivity {
     ToggleButton favBtn;
     String mUri, idKon;
     private static Bundle bundle = new Bundle();
+    private MapView mapView;
 
     @SuppressLint("SetTextI18n")
     @Override
     protected void onCreate(final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        Mapbox.getInstance(this, getString(R.string.mapbox_access_token));
         setContentView(R.layout.activity_detail_content);
         fAuth = FirebaseAuth.getInstance();
 
@@ -59,6 +64,20 @@ public class DetailContent extends AppCompatActivity {
         detailDeskripsi = findViewById(R.id.detailDeskrip);
         detailThumbnail = findViewById(R.id.detailThumbnailContent);
         favBtn = findViewById(R.id.favBtn);
+
+        mapView = findViewById(R.id.gantimaps);
+        mapView.onCreate(savedInstanceState);
+        mapView.getMapAsync(new OnMapReadyCallback() {
+            @Override
+            public void onMapReady(@NonNull MapboxMap mapboxMap) {
+                mapboxMap.setStyle(Style.MAPBOX_STREETS, new Style.OnStyleLoaded() {
+                    @Override
+                    public void onStyleLoaded(@NonNull Style style) {
+
+                    }
+                });
+            }
+        });
 
         initSecondFirebaseAcct();
 
@@ -172,12 +191,44 @@ public class DetailContent extends AppCompatActivity {
     @Override
     protected void onPause() {
         super.onPause();
+        mapView.onPause();
         bundle.putBoolean("isChecked", favBtn.isChecked());
     }
 
     @Override
     protected void onResume() {
         super.onResume();
+        mapView.onResume();
         favBtn.setChecked(bundle.getBoolean("isChecked",false));
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        mapView.onStart();
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        mapView.onStop();
+    }
+
+    @Override
+    public void onLowMemory() {
+        super.onLowMemory();
+        mapView.onLowMemory();
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        mapView.onDestroy();
+    }
+
+    @Override
+    protected void onSaveInstanceState(@NonNull Bundle outState) {
+        super.onSaveInstanceState(outState);
+        mapView.onSaveInstanceState(outState);
     }
 }

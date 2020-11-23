@@ -12,4 +12,5 @@
         <item>Lain-lain</item>
     </string-array>
     <string name="kisaranUpah">Kisaran Upah</string>
+    <string name="mapbox_access_token">pk.eyJ1IjoibGVmZmFlbnRlaW4iLCJhIjoiY2todXZqMGZjMWdncjJycGJlMXEwZzA1byJ9.cZfKHXMVYO6T26F6D6alAA</string>
 </resources>

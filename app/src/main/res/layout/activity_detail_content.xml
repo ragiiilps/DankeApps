@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:mapbox="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -61,14 +61,16 @@
             android:background="@drawable/toggle_selector"
             android:onClick="onCustomToggleClick"/>
 
-        <ImageView
+        <com.mapbox.mapboxsdk.maps.MapView
             android:id="@+id/gantimaps"
             android:layout_width="match_parent"
             android:layout_height="200dp"
             android:layout_below="@id/detailDeskrip"
-            android:background="@color/ijomuda"
             android:layout_marginTop="10dp"
-            android:layout_marginBottom="5dp"/>
+            android:layout_marginBottom="5dp"
+            mapbox:mapbox_cameraZoom="11"
+            mapbox:mapbox_cameraTargetLat="-7.78278"
+            mapbox:mapbox_cameraTargetLng="110.36083"/>
 
         <RelativeLayout
             android:id="@+id/layoutProf"

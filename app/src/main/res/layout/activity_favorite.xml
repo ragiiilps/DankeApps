@@ -6,10 +6,16 @@
     android:layout_height="match_parent"
     tools:context=".MainActivity">
 
+    <include
+        android:id="@+id/toolbar_fav"
+        layout="@layout/toolbar_fav" />
+
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerViewFav"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:layout_margin="10dp"
+        android:layout_below="@id/toolbar_fav"
         android:layout_above="@id/bottom_navi">
 
     </androidx.recyclerview.widget.RecyclerView>
