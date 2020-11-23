@@ -1,4 +1,15 @@
 <resources>
     <string name="app_name">DankeApps</string>
-    <string name="ganti">Image Added</string>
+    <string name="ganti">Gambar ditambahkan</string>
+    <string name="kategori">Kategori Jasa</string>
+    <string-array name="Spinner_items">
+        <item>Pendidikan</item>
+        <item>Otomotif</item>
+        <item>Seni</item>
+        <item>Teknologi</item>
+        <item>Pertukangan</item>
+        <item>Perkebunan</item>
+        <item>Lain-lain</item>
+    </string-array>
+    <string name="kisaranUpah">Kisaran Upah</string>
 </resources>

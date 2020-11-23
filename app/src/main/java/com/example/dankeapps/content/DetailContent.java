@@ -42,7 +42,7 @@ public class DetailContent extends AppCompatActivity {
         Intent intent = getIntent();
         String uri = intent.getStringExtra("uri");
         String Judul = intent.getStringExtra("Judul");
-        String Upah = intent.getExtras().getString("Upah");
+        int Upah = intent.getExtras().getInt("Upah");
         String Deskripsi = intent.getExtras().getString("Deskripsi");
 
 

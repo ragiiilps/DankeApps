@@ -7,14 +7,14 @@ public class ModelContent {
 
     String id;
     String Judul;
-    String Upah;
+    int Upah;
     String Deskripsi;
     String uri;
 
     public ModelContent() {
     }
 
-    public ModelContent(String id, String judul, String upah, String deskripsi, String uri) {
+    public ModelContent(String id, String judul, int upah, String deskripsi, String uri) {
         this.id = id;
         this.Judul = judul;
         this.Upah = upah;
@@ -38,11 +38,11 @@ public class ModelContent {
         this.Judul = judul;
     }
 
-    public String getUpah() {
+    public int getUpah() {
         return Upah;
     }
 
-    public void setUpah(String upah) {
+    public void setUpah(int upah) {
         this.Upah = upah;
     }
 

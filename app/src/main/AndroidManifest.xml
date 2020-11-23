@@ -13,7 +13,9 @@
         android:theme="@style/AppTheme">
         <activity android:name=".content.DetailContent" />
         <activity android:name=".EditCV" />
-        <activity android:name=".content.PostJasa" />
+        <activity android:name=".content.FilterContent"
+            android:theme="@style/AppTheme.popTheme"/>
+        <activity android:name=".content.PostJasa"/>
         <activity android:name=".AccountInfo" />
         <activity android:name=".PengisianCV" />
         <activity android:name=".Register" />

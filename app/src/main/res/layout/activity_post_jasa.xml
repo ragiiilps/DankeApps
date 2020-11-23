@@ -27,7 +27,7 @@
         android:id="@+id/judulPst"
         android:layout_width="350dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="35dp"
+        android:layout_marginTop="20dp"
         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
         android:layout_gravity="center_horizontal"
         android:hint="Judul Jasa">
@@ -71,11 +71,37 @@
             android:gravity="start"/>
     </com.google.android.material.textfield.TextInputLayout>
 
+    <com.google.android.material.textfield.TextInputLayout
+        android:layout_width="350dp"
+        android:layout_marginTop="10dp"
+        android:layout_gravity="center_horizontal"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:hint="Kategori Jasa"
+            android:layout_marginTop="-10dp"
+            android:gravity="start"/>
+
+        <Spinner
+            android:id="@+id/tagSpinner"
+            android:autofillHints="@string/kategori"
+            android:layout_width="350dp"
+            android:gravity="start"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:entries="@array/Spinner_items"
+            android:layout_gravity="center_horizontal"/>
+
+    </com.google.android.material.textfield.TextInputLayout>
+
     <RelativeLayout
         android:layout_width="350dp"
         android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:layout_marginTop="10dp">
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="10dp"
+        >
 
         <Button
             android:id="@+id/imagePstBtn"

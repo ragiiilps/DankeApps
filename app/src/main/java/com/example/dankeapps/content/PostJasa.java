@@ -5,8 +5,10 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.ProgressBar;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -38,7 +40,7 @@ import java.util.Locale;
 import java.util.Map;
 import java.util.UUID;
 
-public class PostJasa extends AppCompatActivity {
+public class PostJasa extends AppCompatActivity implements AdapterView.OnItemSelectedListener {
 
     TextInputLayout mJudulPst, mUpahPst, mDeskripsiPst;
     TextView imgUrl, saveUri;
@@ -50,6 +52,8 @@ public class PostJasa extends AppCompatActivity {
     FirebaseStorage mSecondStorage;
     StorageReference storageReference;
     Uri imageUrl;
+    Spinner tag;
+    String Katgri;
 
     //inisialisasi 2nd firebaseapp
     private void initSecondFirebaseAcct(){
@@ -88,9 +92,11 @@ public class PostJasa extends AppCompatActivity {
         imgUrl = findViewById(R.id.imgUrl);
         saveUri = findViewById(R.id.saveUri);
         pb = findViewById(R.id.progressbar);
-
+        tag = findViewById(R.id.tagSpinner);
 
         initSecondFirebaseAcct();
+
+        tag.setOnItemSelectedListener(this);
 
         mImageBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -112,9 +118,11 @@ public class PostJasa extends AppCompatActivity {
                 String judul = String.join(" ", cap);
 
                 String Deskrpsi = mDeskripsiPst.getEditText().getText().toString().trim();
-                String Upah = mUpahPst.getEditText().getText().toString().trim();
+                String Pay = mUpahPst.getEditText().getText().toString().trim();
+                int Upah = Integer.parseInt(Pay);
+                String Kategori = Katgri;
 
-                uploadData(judul, Upah, Deskrpsi);
+                uploadData(judul, Upah, Deskrpsi, Kategori);
             }
         });
 
@@ -177,7 +185,7 @@ public class PostJasa extends AppCompatActivity {
     }
 
     //metode upload data ke firestore
-    private void uploadData(String judul, String Upah, String Deskrpsi) {
+    private void uploadData(String judul, int Upah, String Deskrpsi, String Kategori) {
         String id = UUID.randomUUID().toString();
         String currentDateTime = java.text.DateFormat.getDateTimeInstance().format(new Date());
         String Guri = saveUri.getText().toString();
@@ -188,6 +196,7 @@ public class PostJasa extends AppCompatActivity {
         doc.put("Judul", judul);
         doc.put("Upah", Upah);
         doc.put("Deskripsi", Deskrpsi);
+        doc.put("Kategori", Kategori);
         doc.put("uri", Guri);
 
         mSecondDBRef.collection("Content").document(id).set(doc)
@@ -196,14 +205,17 @@ public class PostJasa extends AppCompatActivity {
                     public void onComplete(@NonNull Task<Void> task) {
                         Toast.makeText(PostJasa.this, "Uploaded",  Toast.LENGTH_SHORT).show();
                         finish();
+                        pb.setVisibility(View.GONE);
                     }
                 })
                 .addOnFailureListener(new OnFailureListener() {
                     @Override
                     public void onFailure(@NonNull Exception e) {
                         Toast.makeText(PostJasa.this, "Failed", Toast.LENGTH_SHORT).show();
+                        pb.setVisibility(View.GONE);
                     }
                 });
+        pb.setVisibility(View.VISIBLE);
     }
 
     //auth anonymous buat dapet token storage
@@ -218,5 +230,15 @@ public class PostJasa extends AppCompatActivity {
                     public void onFailure(@NonNull Exception exception) {
                     }
                 });
+    }
+
+    @Override
+    public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+        Katgri = parent.getSelectedItem().toString().trim();
+    }
+
+    @Override
+    public void onNothingSelected(AdapterView<?> parent) {
+
     }
 }

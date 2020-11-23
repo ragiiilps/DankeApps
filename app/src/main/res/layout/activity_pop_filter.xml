@@ -1,0 +1,166 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context=".content.FilterContent"
+    android:padding="10dp">
+
+    <RelativeLayout
+        android:id="@+id/filter_bar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="10dp">
+
+        <TextView
+            android:id="@+id/titleKategori"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/kategori"
+            android:layout_margin="10dp"
+            android:textStyle="bold"
+            android:textSize="15sp"/>
+
+        <TextView
+            android:id="@+id/titleUpah"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/kisaranUpah"
+            android:layout_marginTop="10dp"
+            android:layout_marginStart="50dp"
+            android:layout_toEndOf="@id/titleKategori"
+            android:textStyle="bold"
+            android:textSize="15sp"/>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/minUpahLay"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/titleUpah"
+            android:layout_toEndOf="@id/titleKategori"
+            android:layout_marginStart="50dp"
+            android:hint="Upah Minimal"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="number"
+                android:textSize="12sp"/>
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/maxUpahLay"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/minUpahLay"
+            android:layout_toEndOf="@id/titleKategori"
+            android:layout_marginStart="50dp"
+            android:hint="Upah Maksimal"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="number"
+                android:textSize="12sp"/>
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <RadioGroup
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/layoutRadio"
+            android:layout_below="@id/titleKategori"
+            android:layout_marginStart="10dp">
+
+            <RadioButton
+                android:id="@+id/radio_pendidikan"
+                android:layout_width="120dp"
+                android:layout_height="wrap_content"
+                android:text="Pendidikan"
+                android:textSize="12sp"
+                android:onClick="checkButton"/>
+            <RadioButton
+                android:id="@+id/radio_otomotif"
+                android:layout_width="120dp"
+                android:layout_height="wrap_content"
+                android:textSize="12sp"
+                android:text="Otomotif"
+                android:onClick="checkButton"/>
+            <RadioButton
+                android:id="@+id/radio_seni"
+                android:layout_width="120dp"
+                android:layout_height="wrap_content"
+                android:textSize="12sp"
+                android:text="Seni"
+                android:onClick="checkButton"/>
+            <RadioButton
+                android:id="@+id/radio_teknologi"
+                android:layout_width="120dp"
+                android:layout_height="wrap_content"
+                android:textSize="12sp"
+                android:text="Teknologi"
+                android:onClick="checkButton"/>
+            <RadioButton
+                android:id="@+id/radio_pertukangan"
+                android:layout_width="120dp"
+                android:layout_height="wrap_content"
+                android:textSize="12sp"
+                android:onClick="checkButton"
+                android:text="Pertukangan"/>
+            <RadioButton
+                android:id="@+id/radio_perkebunan"
+                android:layout_width="120dp"
+                android:layout_height="wrap_content"
+                android:textSize="12sp"
+                android:onClick="checkButton"
+                android:text="Perkebunan"/>
+            <RadioButton
+                android:id="@+id/radio_lain2"
+                android:layout_width="120dp"
+                android:layout_height="wrap_content"
+                android:textSize="12sp"
+                android:onClick="checkButton"
+                android:text="Lain-lain"/>
+
+        </RadioGroup>
+
+        <Button
+            android:id="@+id/middledividefil"
+            android:layout_width="2dp"
+            android:layout_height="2dp"
+            android:layout_below="@id/layoutRadio"
+            android:layout_centerInParent="true"
+            android:padding="10dp"
+            android:layout_marginTop="20dp"
+            android:visibility="invisible"/>
+
+        <Button
+            android:id="@+id/OKBtn"
+            android:text="OK"
+            android:textColor="@color/white"
+            android:layout_width="100dp"
+            android:layout_height="40dp"
+            android:background="@drawable/bentuk_button2"
+            android:layout_toEndOf="@+id/middledividefil"
+            android:layout_below="@+id/layoutRadio"
+            android:padding="10dp"
+            android:layout_marginTop="20dp"
+            android:layout_marginBottom="10dp"/>
+
+        <Button
+            android:id="@+id/ResetBtn"
+            android:text="Reset"
+            android:textColor="@color/white"
+            android:layout_width="100dp"
+            android:layout_height="40dp"
+            android:background="@drawable/bentuk_button1"
+            android:layout_toStartOf="@id/middledividefil"
+            android:layout_below="@+id/layoutRadio"
+            android:padding="10dp"
+            android:layout_marginTop="20dp"
+            android:layout_marginBottom="10dp"/>
+
+    </RelativeLayout>
+
+</RelativeLayout>

@@ -1,6 +1,7 @@
 package com.example.dankeapps;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import androidx.recyclerview.widget.GridLayoutManager;
@@ -11,6 +12,7 @@ import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.Editable;
+import android.text.Layout;
 import android.text.TextWatcher;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -19,11 +21,15 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 
 import com.bumptech.glide.Glide;
 import com.example.dankeapps.content.DetailContent;
+import com.example.dankeapps.content.FilterContent;
 import com.example.dankeapps.content.ModelContent;
 import com.example.dankeapps.content.PostJasa;
 import com.firebase.ui.firestore.FirestoreRecyclerAdapter;
@@ -38,13 +44,15 @@ import com.google.firebase.firestore.Query;
 
 public class MainActivity extends AppCompatActivity {
 
-    Button UpJasaBtn;
+    Button UpJasaBtn, UpFilterBtn;
     RecyclerView mRecyclerView;
     FirebaseApp mMySecondApp;
     FirebaseFirestore mSecondFirestore;
     FirestoreRecyclerAdapter<ModelContent, ContentHolder> adapter;
     GridLayoutManager gridLayoutManager;
     TextView mSearchView;
+    RelativeLayout filterbar;
+    LinearLayout bgFtrl;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,6 +61,9 @@ public class MainActivity extends AppCompatActivity {
         mRecyclerView = findViewById(R.id.recyclerView);
         mSearchView = findViewById(R.id.BarCari);
         UpJasaBtn = findViewById(R.id.UpJasaBtn);
+        UpFilterBtn = findViewById(R.id.UpFilterBtn);
+        filterbar = findViewById(R.id.filter_bar);
+        bgFtrl = findViewById(R.id.bgfiltr);
 
         initSecondFirebaseAcct();
         init();
@@ -64,6 +75,14 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 startActivity(new Intent(getApplicationContext(), PostJasa.class));
+            }
+        });
+        //button filter
+        UpFilterBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivityForResult(new Intent(getApplicationContext(), FilterContent.class), 1);
+                bgFtrl.setVisibility(View.VISIBLE);
             }
         });
 
@@ -113,7 +132,7 @@ public class MainActivity extends AppCompatActivity {
 
                         String uri = model.getUri();
                         String Judul = model.getJudul();
-                        String Upah = model.getUpah();
+                        int Upah = model.getUpah();
                         String Deskripsi = model.getDeskripsi();
 
                         i.putExtra("uri", uri);
@@ -233,6 +252,50 @@ public class MainActivity extends AppCompatActivity {
                 adapter.updateOptions(Content);
             }
         });
+    }
+
+    // Filter View
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        Query query;
+        if (requestCode == 1 && resultCode == RESULT_OK) {
+            String kategori = data.getStringExtra("Kategori");
+            int minup = data.getIntExtra("minup", 0);
+            int maxup = data.getIntExtra("maxup", 999999999);
+
+            query = mSecondFirestore.collection("Content")
+                    .whereEqualTo("Kategori", kategori)
+                    .whereGreaterThanOrEqualTo("Upah", minup)
+                    .whereLessThanOrEqualTo("Upah", maxup)
+                    .orderBy("createdOn", Query.Direction.DESCENDING);
+
+        } else if (requestCode == 1 && resultCode == 2) {
+            int minup = data.getIntExtra("minup", 1);
+            int maxup = data.getIntExtra("maxup", 999999999);
+
+            query = mSecondFirestore.collection("Content")
+                    .whereGreaterThanOrEqualTo("Upah", minup)
+                    .whereLessThanOrEqualTo("Upah", maxup)
+                    .orderBy("createdOn", Query.Direction.DESCENDING);
+
+        }else if (requestCode == 1 && resultCode == 3){
+            String kategori = data.getStringExtra("Kategori");
+
+            query = mSecondFirestore.collection("Content")
+                    .whereEqualTo("Kategori", kategori)
+                    .orderBy("createdOn", Query.Direction.DESCENDING);
+
+        }else {
+            query = mSecondFirestore.collection("Content")
+                    .orderBy("createdOn", Query.Direction.DESCENDING);
+        }
+
+        bgFtrl.setVisibility(View.GONE);
+        FirestoreRecyclerOptions<ModelContent> Content = new FirestoreRecyclerOptions.Builder<ModelContent>()
+                .setQuery(query, ModelContent.class)
+                .build();
+        adapter.updateOptions(Content);
     }
 
 }
