@@ -95,7 +95,7 @@ public class Favorite extends AppCompatActivity {
         mSecondFirestore = FirebaseFirestore.getInstance(mMySecondApp);
     }
 
-    //metode ambil konten dari firestore
+    //metode ambil konten dari firestore fav
     private void getContentList() {
         Query query = mSecondFirestore.collection("Fav")
                 .document(Uid).collection("user");
@@ -121,12 +121,22 @@ public class Favorite extends AppCompatActivity {
                         String Judul = model.getJudul();
                         int Upah = model.getUpah();
                         String Deskripsi = model.getDeskripsi();
+                        String name = model.getName();
+                        String username = model.getUsername();
+                        String email = model.getEmail();
+                        String phone = model.getPhone();
+                        String Uid = model.getUid();
 
                         i.putExtra("id", id);
                         i.putExtra("uri", uri);
                         i.putExtra("Judul", Judul);
                         i.putExtra("Upah", Upah);
                         i.putExtra("Deskripsi", Deskripsi);
+                        i.putExtra("name", name);
+                        i.putExtra("username", username);
+                        i.putExtra("email", email);
+                        i.putExtra("phone", phone);
+                        i.putExtra("Uid", Uid);
 
                         startActivity(i);
                     }

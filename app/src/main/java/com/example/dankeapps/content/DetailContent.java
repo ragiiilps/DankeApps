@@ -6,9 +6,11 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.Button;
 import android.widget.CompoundButton;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -28,18 +30,25 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
+import com.mapbox.android.core.permissions.PermissionsListener;
+import com.mapbox.android.core.permissions.PermissionsManager;
 import com.mapbox.mapboxsdk.Mapbox;
+import com.mapbox.mapboxsdk.location.LocationComponent;
+import com.mapbox.mapboxsdk.location.LocationComponentActivationOptions;
+import com.mapbox.mapboxsdk.location.modes.CameraMode;
+import com.mapbox.mapboxsdk.location.modes.RenderMode;
 import com.mapbox.mapboxsdk.maps.MapView;
 import com.mapbox.mapboxsdk.maps.MapboxMap;
 import com.mapbox.mapboxsdk.maps.OnMapReadyCallback;
 import com.mapbox.mapboxsdk.maps.Style;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
-public class DetailContent extends AppCompatActivity {
-    TextView detailJudul, detailUpah, detailDeskripsi;
+public class DetailContent extends AppCompatActivity implements OnMapReadyCallback, PermissionsListener {
+    TextView detailJudul, detailUpah, detailDeskripsi, detUser, detNama, detEmail, detHP;
     ImageView detailThumbnail;
     FirebaseApp mMySecondApp;
     FirebaseFirestore mSecondDBRef;
@@ -47,9 +56,12 @@ public class DetailContent extends AppCompatActivity {
     StorageReference storageReference;
     FirebaseAuth fAuth;
     ToggleButton favBtn;
+    Button callBtn, CVbtn;
     String mUri, idKon;
     private static Bundle bundle = new Bundle();
     private MapView mapView;
+    private PermissionsManager permissionsManager;
+    private MapboxMap mapboxMap;
 
     @SuppressLint("SetTextI18n")
     @Override
@@ -63,21 +75,13 @@ public class DetailContent extends AppCompatActivity {
         detailUpah = findViewById(R.id.detailUpah);
         detailDeskripsi = findViewById(R.id.detailDeskrip);
         detailThumbnail = findViewById(R.id.detailThumbnailContent);
+        detUser = findViewById(R.id.detUser);
+        detNama = findViewById(R.id.detNama);
+        detEmail = findViewById(R.id.detEmail);
+        detHP = findViewById(R.id.detPhone);
         favBtn = findViewById(R.id.favBtn);
-
-        mapView = findViewById(R.id.gantimaps);
-        mapView.onCreate(savedInstanceState);
-        mapView.getMapAsync(new OnMapReadyCallback() {
-            @Override
-            public void onMapReady(@NonNull MapboxMap mapboxMap) {
-                mapboxMap.setStyle(Style.MAPBOX_STREETS, new Style.OnStyleLoaded() {
-                    @Override
-                    public void onStyleLoaded(@NonNull Style style) {
-
-                    }
-                });
-            }
-        });
+        callBtn = findViewById(R.id.callBtn);
+        CVbtn = findViewById(R.id.CVbtn);
 
         initSecondFirebaseAcct();
 
@@ -87,17 +91,26 @@ public class DetailContent extends AppCompatActivity {
         mUri = uri;
         String Judul = intent.getStringExtra("Judul");
         int Upah = intent.getExtras().getInt("Upah");
+        String hupah = String.valueOf(Upah);
         String Deskripsi = intent.getExtras().getString("Deskripsi");
         idKon = intent.getStringExtra("id");
-        String hupah = String.valueOf(Upah);
-
+        String user = intent.getStringExtra("user");
+        String name = intent.getStringExtra("name");
+        String email = intent.getStringExtra("email");
+        String phone = intent.getStringExtra("phone");
+        String Uid = intent.getStringExtra("Uid");
 
         //display content
         detailJudul.setText(Judul);
         detailUpah.setText(hupah);
         detailDeskripsi.setText(Deskripsi);
         Glide.with(this).load(uri).into(detailThumbnail);
+        detUser.setText(user);
+        detNama.setText(name);
+        detEmail.setText(email);
+        detHP.setText(phone);
 
+        //favorite button
         favBtn.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
@@ -118,9 +131,95 @@ public class DetailContent extends AppCompatActivity {
             }
         });
 
+        // panggil no hp
+        callBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent call = new Intent(Intent.ACTION_DIAL);
+                call.setData(Uri.parse("tel:"+phone));
+                startActivity(call);
+            }
+        });
+
+        //display CV
+        CVbtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent vCV = new Intent(getApplicationContext(), DisplayCV.class);
+                vCV.putExtra("Uid", Uid);
+
+                startActivity(vCV);
+                finish();
+            }
+        });
+
+        //inisialisasi maps
+        mapView = findViewById(R.id.gantimaps);
+        mapView.onCreate(savedInstanceState);
+        mapView.getMapAsync(this);
     }
 
 
+    //map perijinan stuff
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        permissionsManager.onRequestPermissionsResult(requestCode, permissions, grantResults);
+    }
+
+    @Override
+    public void onExplanationNeeded(List<String> permissionsToExplain) {
+        Toast.makeText(this, R.string.user_location_permission_explanation, Toast.LENGTH_LONG).show();
+    }
+
+    @Override
+    public void onPermissionResult(boolean granted) {
+        if (granted) {
+            mapboxMap.getStyle(new Style.OnStyleLoaded() {
+                @Override
+                public void onStyleLoaded(@NonNull Style style) {
+                    enableLocationComponent(style);
+                }
+            });
+        } else {
+            Toast.makeText(this, R.string.user_location_permission_not_granted, Toast.LENGTH_LONG).show();
+            finish();
+        }
+    }
+
+    @Override
+    public void onMapReady(@NonNull MapboxMap mapboxMap) {
+        DetailContent.this.mapboxMap = mapboxMap;
+        mapboxMap.setStyle(new Style.Builder().fromUri("mapbox://styles/mapbox/cjerxnqt3cgvp2rmyuxbeqme7"),
+                new Style.OnStyleLoaded() {
+                    @Override
+                    public void onStyleLoaded(@NonNull Style style) {
+                        enableLocationComponent(style);
+                    }
+                });
+    }
+
+    @SuppressWarnings( {"MissingPermission"})
+    private void enableLocationComponent(Style loadedMapStyle) {
+        // Check if permissions are enabled and if not request
+        if (PermissionsManager.areLocationPermissionsGranted(this)) {
+            // Get an instance of the component
+            LocationComponent locationComponent = mapboxMap.getLocationComponent();
+            // Activate with options
+            locationComponent.activateLocationComponent(
+                    LocationComponentActivationOptions.builder(this, loadedMapStyle).build());
+            // Enable to make component visible
+            locationComponent.setLocationComponentEnabled(true);
+            // Set the component's camera mode
+            locationComponent.setCameraMode(CameraMode.TRACKING);
+            // Set the component's render mode
+            locationComponent.setRenderMode(RenderMode.COMPASS);
+        } else {
+            permissionsManager = new PermissionsManager(this);
+            permissionsManager.requestLocationPermissions(this);
+        }
+    }
+
+    // database favorite
     private void deleteFav(String Uid, String idKon) {
         mSecondDBRef.collection("Fav").document(Uid).collection("user").document(idKon)
                 .delete()
@@ -140,7 +239,6 @@ public class DetailContent extends AppCompatActivity {
 
     private void uploadData(String Uid, String judul, int upah, String desk, String mUri, String idKon) {
         Map<String, Object> doc = new HashMap<>();
-        String id = UUID.randomUUID().toString();
 
         doc.put("Uid", Uid);
         doc.put("Judul", judul);
@@ -192,17 +290,16 @@ public class DetailContent extends AppCompatActivity {
     protected void onPause() {
         super.onPause();
         mapView.onPause();
-        bundle.putBoolean("isChecked", favBtn.isChecked());
     }
 
     @Override
     protected void onResume() {
         super.onResume();
         mapView.onResume();
-        favBtn.setChecked(bundle.getBoolean("isChecked",false));
     }
 
     @Override
+    @SuppressWarnings( {"MissingPermission"})
     protected void onStart() {
         super.onStart();
         mapView.onStart();

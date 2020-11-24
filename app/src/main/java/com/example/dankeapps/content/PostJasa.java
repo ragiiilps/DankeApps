@@ -27,6 +27,11 @@ import com.google.firebase.FirebaseOptions;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
@@ -46,14 +51,16 @@ public class PostJasa extends AppCompatActivity implements AdapterView.OnItemSel
     TextView imgUrl, saveUri;
     Button mPostBtn, mImageBtn;
     ProgressBar pb;
-    FirebaseAuth mAuth;
+    FirebaseAuth mAuth, fAuth;
+    FirebaseDatabase rootNode;
+    DatabaseReference databaseReference;
     FirebaseApp mMySecondApp;
     FirebaseFirestore mSecondDBRef;
     FirebaseStorage mSecondStorage;
     StorageReference storageReference;
     Uri imageUrl;
     Spinner tag;
-    String Katgri;
+    String Katgri, name, username, email, phone;
 
     //inisialisasi 2nd firebaseapp
     private void initSecondFirebaseAcct(){
@@ -96,8 +103,31 @@ public class PostJasa extends AppCompatActivity implements AdapterView.OnItemSel
 
         initSecondFirebaseAcct();
 
+        // add data pengiklan
+        fAuth = FirebaseAuth.getInstance();
+        String Uid = fAuth.getCurrentUser().getUid();
+        rootNode = FirebaseDatabase.getInstance();
+        databaseReference = rootNode.getReference("Users").child(Uid);
+
+        databaseReference.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                name = dataSnapshot.child("name").getValue(String.class);
+                username = dataSnapshot.child("username").getValue(String.class);
+                email = dataSnapshot.child("email").getValue(String.class);
+                phone = dataSnapshot.child("phone").getValue(String.class);
+
+            }
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+
+        //spinner kategori
         tag.setOnItemSelectedListener(this);
 
+        //add gambar
         mImageBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -122,10 +152,11 @@ public class PostJasa extends AppCompatActivity implements AdapterView.OnItemSel
                 int Upah = Integer.parseInt(Pay);
                 String Kategori = Katgri;
 
-                uploadData(judul, Upah, Deskrpsi, Kategori);
+                uploadData(judul, Upah, Deskrpsi, Kategori, Uid);
             }
         });
 
+        //jaga-jaga nek error pas ambil uri
         FirebaseUser user = mAuth.getCurrentUser();
         if (user != null) {
         } else {
@@ -185,7 +216,7 @@ public class PostJasa extends AppCompatActivity implements AdapterView.OnItemSel
     }
 
     //metode upload data ke firestore
-    private void uploadData(String judul, int Upah, String Deskrpsi, String Kategori) {
+    private void uploadData(String judul, int Upah, String Deskrpsi, String Kategori, String Uid) {
         String id = UUID.randomUUID().toString();
         String currentDateTime = java.text.DateFormat.getDateTimeInstance().format(new Date());
         String Guri = saveUri.getText().toString();
@@ -198,6 +229,11 @@ public class PostJasa extends AppCompatActivity implements AdapterView.OnItemSel
         doc.put("Deskripsi", Deskrpsi);
         doc.put("Kategori", Kategori);
         doc.put("uri", Guri);
+        doc.put("name", name);
+        doc.put("username", username);
+        doc.put("email", email);
+        doc.put("phone", phone);
+        doc.put("Uid", Uid);
 
         mSecondDBRef.collection("Content").document(id).set(doc)
                 .addOnCompleteListener(new OnCompleteListener<Void>() {
@@ -232,6 +268,7 @@ public class PostJasa extends AppCompatActivity implements AdapterView.OnItemSel
                 });
     }
 
+    //kategori
     @Override
     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
         Katgri = parent.getSelectedItem().toString().trim();
