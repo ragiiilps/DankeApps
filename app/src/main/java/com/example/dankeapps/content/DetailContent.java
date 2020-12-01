@@ -6,8 +6,10 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -27,7 +29,9 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.FirebaseApp;
 import com.google.firebase.FirebaseOptions;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.Query;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.mapbox.android.core.permissions.PermissionsListener;
@@ -57,7 +61,7 @@ public class DetailContent extends AppCompatActivity implements OnMapReadyCallba
     FirebaseAuth fAuth;
     ToggleButton favBtn;
     Button callBtn, CVbtn;
-    String mUri, idKon;
+    String mUri, idKon, mphone, mUid;
     private static Bundle bundle = new Bundle();
     private MapView mapView;
     private PermissionsManager permissionsManager;
@@ -87,28 +91,19 @@ public class DetailContent extends AppCompatActivity implements OnMapReadyCallba
 
         //terima data kontent dari main
         Intent intent = getIntent();
-        String uri = intent.getStringExtra("uri");
-        mUri = uri;
-        String Judul = intent.getStringExtra("Judul");
-        int Upah = intent.getExtras().getInt("Upah");
-        String hupah = String.valueOf(Upah);
-        String Deskripsi = intent.getExtras().getString("Deskripsi");
-        idKon = intent.getStringExtra("id");
-        String user = intent.getStringExtra("user");
-        String name = intent.getStringExtra("name");
-        String email = intent.getStringExtra("email");
-        String phone = intent.getStringExtra("phone");
-        String Uid = intent.getStringExtra("Uid");
 
-        //display content
-        detailJudul.setText(Judul);
-        detailUpah.setText(hupah);
-        detailDeskripsi.setText(Deskripsi);
-        Glide.with(this).load(uri).into(detailThumbnail);
-        detUser.setText(user);
-        detNama.setText(name);
-        detEmail.setText(email);
-        detHP.setText(phone);
+        if (intent.getStringExtra("id") != null){
+            idKon = intent.getStringExtra("id");
+        } else {
+            SharedPreferences sharedPrf = getSharedPreferences("id", MODE_PRIVATE);
+            idKon = sharedPrf.getString("id", "");
+        }
+
+
+        loadContent();
+
+        SharedPreferences sharedPreferences = getSharedPreferences(idKon, MODE_PRIVATE);
+        favBtn.setChecked(sharedPreferences.getBoolean("value", false));
 
         //favorite button
         favBtn.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
@@ -120,13 +115,24 @@ public class DetailContent extends AppCompatActivity implements OnMapReadyCallba
                     String pah = detailUpah.getText().toString().trim();
                     int upah = Integer.parseInt(pah);
                     String desk = detailDeskripsi.getText().toString().trim();
-                    uploadData(Uid, judul, upah, desk, mUri, idKon);
+                    boolean state = favBtn.isChecked();
+
+                    uploadData(Uid, judul, upah, desk, mUri, idKon, state);
+
+                    SharedPreferences.Editor editor = getSharedPreferences(idKon, MODE_PRIVATE).edit();
+                    editor.putBoolean("value", true);
+                    editor.apply();
+                    favBtn.setChecked(true);
 
                 }
                 else {
                     String Uid = fAuth.getCurrentUser().getUid();
-                    startActivity(new Intent(getApplicationContext(), Favorite.class));
+                    SharedPreferences.Editor editor = getSharedPreferences(idKon, MODE_PRIVATE).edit();
+                    editor.putBoolean("value", false);
+                    editor.apply();
+                    setResult(6);
                     deleteFav(Uid, idKon);
+                    favBtn.setChecked(false);
                 }
             }
         });
@@ -136,7 +142,7 @@ public class DetailContent extends AppCompatActivity implements OnMapReadyCallba
             @Override
             public void onClick(View v) {
                 Intent call = new Intent(Intent.ACTION_DIAL);
-                call.setData(Uri.parse("tel:"+phone));
+                call.setData(Uri.parse("tel:"+mphone));
                 startActivity(call);
             }
         });
@@ -146,10 +152,9 @@ public class DetailContent extends AppCompatActivity implements OnMapReadyCallba
             @Override
             public void onClick(View v) {
                 Intent vCV = new Intent(getApplicationContext(), DisplayCV.class);
-                vCV.putExtra("Uid", Uid);
+                vCV.putExtra("Uid", mUid);
 
                 startActivity(vCV);
-                finish();
             }
         });
 
@@ -159,6 +164,44 @@ public class DetailContent extends AppCompatActivity implements OnMapReadyCallba
         mapView.getMapAsync(this);
     }
 
+    public void loadContent(){
+        mSecondDBRef.collection("Content").document(idKon).get()
+                .addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+                    @Override
+                    public void onSuccess(DocumentSnapshot documentSnapshot) {
+                        if (documentSnapshot.exists()){
+                            String judul = documentSnapshot.getString("Judul");
+                            String desc = documentSnapshot.getString("Deskripsi");
+                            String link = documentSnapshot.getString("uri");
+                            int upah = documentSnapshot.getLong("Upah").intValue();
+                            String pay = String.valueOf(upah);
+                            String username = documentSnapshot.getString("username");
+                            String name = documentSnapshot.getString("name");
+                            String phone = documentSnapshot.getString("phone");
+                            String email = documentSnapshot.getString("email");
+                            String Uid = documentSnapshot.getString("Uid");
+                            mUri = link;
+                            mphone = phone;
+                            mUid = Uid;
+
+                            detailJudul.setText(judul);
+                            detailUpah.setText(pay);
+                            detailDeskripsi.setText(desc);
+                            Glide.with(DetailContent.this).load(link).into(detailThumbnail);
+                            detUser.setText(username);
+                            detNama.setText(name);
+                            detEmail.setText(email);
+                            detHP.setText(phone);
+                        }
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+
+                    }
+                });
+    }
 
     //map perijinan stuff
     @Override
@@ -237,7 +280,7 @@ public class DetailContent extends AppCompatActivity implements OnMapReadyCallba
                 });
     }
 
-    private void uploadData(String Uid, String judul, int upah, String desk, String mUri, String idKon) {
+    private void uploadData(String Uid, String judul, int upah, String desk, String mUri, String idKon, boolean state) {
         Map<String, Object> doc = new HashMap<>();
 
         doc.put("Uid", Uid);
@@ -245,6 +288,8 @@ public class DetailContent extends AppCompatActivity implements OnMapReadyCallba
         doc.put("Upah", upah);
         doc.put("Deskripsi", desk);
         doc.put("uri", mUri);
+        doc.put("id", idKon);
+        doc.put("state", state);
 
         mSecondDBRef.collection("Fav").document(Uid).collection("user").document(idKon).set(doc)
                 .addOnCompleteListener(new OnCompleteListener<Void>() {

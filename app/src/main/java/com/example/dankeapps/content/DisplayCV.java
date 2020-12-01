@@ -84,7 +84,6 @@ public class DisplayCV extends AppCompatActivity {
         back.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(getApplicationContext(), DetailContent.class));
                 finish();
             }
         });

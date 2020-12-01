@@ -10,7 +10,9 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.text.Editable;
 import android.text.Layout;
 import android.text.TextWatcher;
@@ -130,28 +132,15 @@ public class MainActivity extends AppCompatActivity {
                     @Override public void onClick(View v) {
                         Intent i = new Intent(getApplicationContext(), DetailContent.class);
 
+                        /*
+                        SharedPreferences sharedPref = getSharedPreferences("key", MODE_PRIVATE);
+                        SharedPreferences.Editor edit = getSharedPreferences("key", MODE_PRIVATE).edit();
+                        edit.putString("key", model.getId());
+                        edit.apply();*/
+
                         String id = model.getId();
-                        String uri = model.getUri();
-                        String Judul = model.getJudul();
-                        int Upah = model.getUpah();
-                        String Deskripsi = model.getDeskripsi();
-                        String name = model.getName();
-                        String username = model.getUsername();
-                        String email = model.getEmail();
-                        String phone = model.getPhone();
-                        String Uid = model.getUid();
 
                         i.putExtra("id", id);
-                        i.putExtra("uri", uri);
-                        i.putExtra("Judul", Judul);
-                        i.putExtra("Upah", Upah);
-                        i.putExtra("Deskripsi", Deskripsi);
-                        i.putExtra("name", name);
-                        i.putExtra("username", username);
-                        i.putExtra("email", email);
-                        i.putExtra("phone", phone);
-                        i.putExtra("Uid", Uid);
-
                         startActivity(i);
                     }
                 });
