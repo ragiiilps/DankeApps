@@ -12,6 +12,7 @@ import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.os.Handler;
 import android.preference.PreferenceManager;
 import android.text.Editable;
 import android.text.Layout;
@@ -125,18 +126,13 @@ public class MainActivity extends AppCompatActivity {
             protected void onBindViewHolder(@NonNull final ContentHolder holder, final int position, @NonNull final ModelContent model) {
                 holder.mJudulPst.setText(model.getJudul());
                 holder.mUpahPst.setText("Rp. " + model.getUpah());
+                holder.mdaerahPst.setText(model.getDaerah());
                 Glide.with(getApplicationContext()).load(model.getUri()).into(holder.mThumbnail);
 
                 //passing data ke detail konten
                 holder.itemView.setOnClickListener(new View.OnClickListener() {
                     @Override public void onClick(View v) {
                         Intent i = new Intent(getApplicationContext(), DetailContent.class);
-
-                        /*
-                        SharedPreferences sharedPref = getSharedPreferences("key", MODE_PRIVATE);
-                        SharedPreferences.Editor edit = getSharedPreferences("key", MODE_PRIVATE).edit();
-                        edit.putString("key", model.getId());
-                        edit.apply();*/
 
                         String id = model.getId();
 
@@ -165,7 +161,7 @@ public class MainActivity extends AppCompatActivity {
 
     //holder dari content
     public class ContentHolder extends RecyclerView.ViewHolder{
-        private TextView mJudulPst, mUpahPst;
+        private TextView mJudulPst, mUpahPst, mdaerahPst;
         private ImageView mThumbnail;
 
         public ContentHolder(@NonNull View itemView) {
@@ -173,20 +169,9 @@ public class MainActivity extends AppCompatActivity {
             mJudulPst = itemView.findViewById(R.id.card_content_judul);
             mUpahPst = itemView.findViewById(R.id.card_content_upah);
             mThumbnail = itemView.findViewById(R.id.content_thumbnail);
+            mdaerahPst = itemView.findViewById(R.id.card_content_daerah);
 
         }
-    }
-
-    @Override
-    public void onStart(){
-        super.onStart();
-        adapter.startListening();
-    }
-
-    @Override
-    public void onStop() {
-        super.onStop();
-        adapter.stopListening();
     }
 
     //inisialisasi 2nd firebaseapp
@@ -297,6 +282,38 @@ public class MainActivity extends AppCompatActivity {
                 .setQuery(query, ModelContent.class)
                 .build();
         adapter.updateOptions(Content);
+    }
+
+    boolean doubleBackToExitPressedOnce = false;
+    @Override
+    public void onBackPressed() {
+        if (doubleBackToExitPressedOnce) {
+            super.onBackPressed();
+            return;
+        }
+
+        this.doubleBackToExitPressedOnce = true;
+        Toast.makeText(this, "Please click BACK again to exit", Toast.LENGTH_SHORT).show();
+
+        new Handler().postDelayed(new Runnable() {
+
+            @Override
+            public void run() {
+                doubleBackToExitPressedOnce=false;
+            }
+        }, 2000);
+    }
+
+    @Override
+    public void onStart(){
+        super.onStart();
+        adapter.startListening();
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        adapter.stopListening();
     }
 
 }

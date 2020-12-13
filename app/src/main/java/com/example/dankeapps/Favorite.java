@@ -110,6 +110,7 @@ public class Favorite extends AppCompatActivity {
             protected void onBindViewHolder(@NonNull final Favorite.ContentHolder holder, final int position, @NonNull final ModelContent model) {
                 holder.mJudulPst.setText(model.getJudul());
                 holder.mUpahPst.setText("Rp. " + model.getUpah());
+                holder.mDaerahPst.setText(model.getDaerah());
                 Glide.with(getApplicationContext()).load(model.getUri()).into(holder.mThumbnail);
 
                 //passing data ke detail konten
@@ -145,7 +146,7 @@ public class Favorite extends AppCompatActivity {
     }
 
     public class ContentHolder extends RecyclerView.ViewHolder{
-        private TextView mJudulPst, mUpahPst;
+        private TextView mJudulPst, mUpahPst, mDaerahPst;
         private ImageView mThumbnail;
 
         public ContentHolder(@NonNull View itemView) {
@@ -153,6 +154,7 @@ public class Favorite extends AppCompatActivity {
             mJudulPst = itemView.findViewById(R.id.card_content_judul);
             mUpahPst = itemView.findViewById(R.id.card_content_upah);
             mThumbnail = itemView.findViewById(R.id.content_thumbnail);
+            mDaerahPst = itemView.findViewById(R.id.card_content_daerah);
 
         }
     }

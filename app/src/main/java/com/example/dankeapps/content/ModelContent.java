@@ -8,7 +8,7 @@ public class ModelContent {
     String id;
     String Judul;
     int Upah;
-    String Deskripsi;
+    String Deskripsi, daerah;
     String uri;
     String name, username, email, phone, Uid;
 
@@ -23,12 +23,13 @@ public class ModelContent {
     public ModelContent() {
     }
 
-    public ModelContent(String id, String judul, int upah, String deskripsi, String uri) {
+    public ModelContent(String id, String judul, int upah, String deskripsi, String uri, String daerah) {
         this.id = id;
         this.Judul = judul;
         this.Upah = upah;
         this.Deskripsi = deskripsi;
         this.uri = uri;
+        this.daerah = daerah;
     }
 
     public String getId() {
@@ -109,5 +110,13 @@ public class ModelContent {
 
     public void setUid(String uid) {
         Uid = uid;
+    }
+
+    public String getDaerah() {
+        return daerah;
+    }
+
+    public void setDaerah(String daerah) {
+        this.daerah = daerah;
     }
 }

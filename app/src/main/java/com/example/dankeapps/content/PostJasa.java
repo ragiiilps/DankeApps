@@ -47,7 +47,7 @@ import java.util.UUID;
 
 public class PostJasa extends AppCompatActivity implements AdapterView.OnItemSelectedListener {
 
-    TextInputLayout mJudulPst, mUpahPst, mDeskripsiPst;
+    TextInputLayout mJudulPst, mUpahPst, mDeskripsiPst, mDaerahPst;
     TextView imgUrl, saveUri;
     Button mPostBtn, mImageBtn;
     ProgressBar pb;
@@ -94,6 +94,7 @@ public class PostJasa extends AppCompatActivity implements AdapterView.OnItemSel
         mJudulPst = findViewById(R.id.judulPst);
         mDeskripsiPst = findViewById(R.id.deskripsiPst);
         mUpahPst = findViewById(R.id.upahPst);
+        mDaerahPst = findViewById(R.id.daerahPst);
         mPostBtn = findViewById(R.id.PostBtn);
         mImageBtn = findViewById(R.id.imagePstBtn);
         imgUrl = findViewById(R.id.imgUrl);
@@ -120,7 +121,7 @@ public class PostJasa extends AppCompatActivity implements AdapterView.OnItemSel
             }
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {
-
+                Toast.makeText(PostJasa.this, "Error, please try again", Toast.LENGTH_SHORT).show();
             }
         });
 
@@ -151,8 +152,9 @@ public class PostJasa extends AppCompatActivity implements AdapterView.OnItemSel
                 String Pay = mUpahPst.getEditText().getText().toString().trim();
                 int Upah = Integer.parseInt(Pay);
                 String Kategori = Katgri;
+                String daerah = mDaerahPst.getEditText().getText().toString().trim();
 
-                uploadData(judul, Upah, Deskrpsi, Kategori, Uid);
+                uploadData(judul, Upah, Deskrpsi, Kategori, Uid, daerah);
             }
         });
 
@@ -216,7 +218,7 @@ public class PostJasa extends AppCompatActivity implements AdapterView.OnItemSel
     }
 
     //metode upload data ke firestore
-    private void uploadData(String judul, int Upah, String Deskrpsi, String Kategori, String Uid) {
+    private void uploadData(String judul, int Upah, String Deskrpsi, String Kategori, String Uid, String daerah) {
         String id = UUID.randomUUID().toString();
         String currentDateTime = java.text.DateFormat.getDateTimeInstance().format(new Date());
         String Guri = saveUri.getText().toString();
@@ -234,6 +236,7 @@ public class PostJasa extends AppCompatActivity implements AdapterView.OnItemSel
         doc.put("email", email);
         doc.put("phone", phone);
         doc.put("Uid", Uid);
+        doc.put("daerah", daerah);
 
         mSecondDBRef.collection("Content").document(id).set(doc)
                 .addOnCompleteListener(new OnCompleteListener<Void>() {

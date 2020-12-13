@@ -20,7 +20,7 @@
                 android:id="@+id/detailThumbnailContent"
                 android:layout_width="match_parent"
                 android:layout_height="200dp"
-                android:background="@color/ijomuda"
+                android:background="@drawable/no_images"
                 android:scaleType="centerCrop"/>
             <TextView
                 android:id="@+id/detailJudul"
@@ -47,6 +47,7 @@
                 android:id="@+id/detailDeskrip"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:minHeight="200dp"
                 android:hint="Deskripsi"
                 android:layout_below="@id/detailUpah"
                 android:textSize="17sp"
@@ -71,15 +72,27 @@
                 android:layout_below="@id/detailDeskrip"
                 android:layout_marginTop="10dp"
                 android:layout_marginBottom="5dp"
+                android:background="@color/ijomuda"
                 mapbox:mapbox_cameraZoom="11"
                 mapbox:mapbox_cameraTargetLat="-7.78278"
                 mapbox:mapbox_cameraTargetLng="110.36083"/>
+
+            <TextView
+                android:id="@+id/warning"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/noAddresss"
+                android:textColor="#C51E12"
+                android:layout_below="@id/gantimaps"
+                android:gravity="center_horizontal"
+                android:textSize="12sp"
+                android:visibility="invisible"/>
 
             <RelativeLayout
                 android:id="@+id/layoutProf"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_below="@id/gantimaps"
+                android:layout_below="@id/warning"
                 android:layout_margin="10dp">
 
                 <ImageView

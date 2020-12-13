@@ -7,6 +7,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
@@ -20,6 +21,7 @@ import android.widget.Toast;
 import android.widget.ToggleButton;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.util.MarkEnforcingInputStream;
 import com.example.dankeapps.Favorite;
 import com.example.dankeapps.R;
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -29,6 +31,11 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.FirebaseApp;
 import com.google.firebase.FirebaseOptions;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Query;
@@ -36,7 +43,17 @@ import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.mapbox.android.core.permissions.PermissionsListener;
 import com.mapbox.android.core.permissions.PermissionsManager;
+import com.mapbox.api.geocoding.v5.MapboxGeocoding;
+import com.mapbox.api.geocoding.v5.models.GeocodingResponse;
+import com.mapbox.geojson.Feature;
+import com.mapbox.geojson.FeatureCollection;
+import com.mapbox.geojson.Geometry;
+import com.mapbox.geojson.Point;
 import com.mapbox.mapboxsdk.Mapbox;
+import com.mapbox.mapboxsdk.annotations.MarkerOptions;
+import com.mapbox.mapboxsdk.camera.CameraPosition;
+import com.mapbox.mapboxsdk.camera.CameraUpdateFactory;
+import com.mapbox.mapboxsdk.geometry.LatLng;
 import com.mapbox.mapboxsdk.location.LocationComponent;
 import com.mapbox.mapboxsdk.location.LocationComponentActivationOptions;
 import com.mapbox.mapboxsdk.location.modes.CameraMode;
@@ -45,11 +62,24 @@ import com.mapbox.mapboxsdk.maps.MapView;
 import com.mapbox.mapboxsdk.maps.MapboxMap;
 import com.mapbox.mapboxsdk.maps.OnMapReadyCallback;
 import com.mapbox.mapboxsdk.maps.Style;
+import com.mapbox.mapboxsdk.plugins.places.autocomplete.PlaceAutocomplete;
+import com.mapbox.mapboxsdk.style.layers.SymbolLayer;
+import com.mapbox.mapboxsdk.style.sources.GeoJsonSource;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+
+import static com.mapbox.mapboxsdk.style.layers.PropertyFactory.iconAllowOverlap;
+import static com.mapbox.mapboxsdk.style.layers.PropertyFactory.iconIgnorePlacement;
+import static com.mapbox.mapboxsdk.style.layers.PropertyFactory.iconImage;
+import static com.mapbox.mapboxsdk.style.layers.PropertyFactory.iconOffset;
 
 public class DetailContent extends AppCompatActivity implements OnMapReadyCallback, PermissionsListener {
     TextView detailJudul, detailUpah, detailDeskripsi, detUser, detNama, detEmail, detHP;
@@ -58,10 +88,12 @@ public class DetailContent extends AppCompatActivity implements OnMapReadyCallba
     FirebaseFirestore mSecondDBRef;
     FirebaseStorage mSecondStorage;
     StorageReference storageReference;
+    FirebaseDatabase rootNode;
+    DatabaseReference databaseReference, databaseReferenceCV;
     FirebaseAuth fAuth;
     ToggleButton favBtn;
     Button callBtn, CVbtn;
-    String mUri, idKon, mphone, mUid;
+    String mUri, idKon, mphone, mUid, daerah;
     private static Bundle bundle = new Bundle();
     private MapView mapView;
     private PermissionsManager permissionsManager;
@@ -99,7 +131,6 @@ public class DetailContent extends AppCompatActivity implements OnMapReadyCallba
             idKon = sharedPrf.getString("id", "");
         }
 
-
         loadContent();
 
         SharedPreferences sharedPreferences = getSharedPreferences(idKon, MODE_PRIVATE);
@@ -113,11 +144,12 @@ public class DetailContent extends AppCompatActivity implements OnMapReadyCallba
                     String Uid = fAuth.getCurrentUser().getUid();
                     String judul = detailJudul.getText().toString().trim();
                     String pah = detailUpah.getText().toString().trim();
+
+
                     int upah = Integer.parseInt(pah);
                     String desk = detailDeskripsi.getText().toString().trim();
-                    boolean state = favBtn.isChecked();
 
-                    uploadData(Uid, judul, upah, desk, mUri, idKon, state);
+                    uploadData(Uid, judul, upah, desk, mUri, idKon, daerah);
 
                     SharedPreferences.Editor editor = getSharedPreferences(idKon, MODE_PRIVATE).edit();
                     editor.putBoolean("value", true);
@@ -164,6 +196,7 @@ public class DetailContent extends AppCompatActivity implements OnMapReadyCallba
         mapView.getMapAsync(this);
     }
 
+    //load data dari database post, user, dan cv
     public void loadContent(){
         mSecondDBRef.collection("Content").document(idKon).get()
                 .addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
@@ -175,13 +208,11 @@ public class DetailContent extends AppCompatActivity implements OnMapReadyCallba
                             String link = documentSnapshot.getString("uri");
                             int upah = documentSnapshot.getLong("Upah").intValue();
                             String pay = String.valueOf(upah);
-                            String username = documentSnapshot.getString("username");
-                            String name = documentSnapshot.getString("name");
-                            String phone = documentSnapshot.getString("phone");
-                            String email = documentSnapshot.getString("email");
                             String Uid = documentSnapshot.getString("Uid");
+                            String username = documentSnapshot.getString("username");
+                            String email = documentSnapshot.getString("email");
+                            daerah = documentSnapshot.getString("daerah");
                             mUri = link;
-                            mphone = phone;
                             mUid = Uid;
 
                             detailJudul.setText(judul);
@@ -189,16 +220,56 @@ public class DetailContent extends AppCompatActivity implements OnMapReadyCallba
                             detailDeskripsi.setText(desc);
                             Glide.with(DetailContent.this).load(link).into(detailThumbnail);
                             detUser.setText(username);
-                            detNama.setText(name);
                             detEmail.setText(email);
-                            detHP.setText(phone);
+
+                            //get data dari id user
+                            rootNode = FirebaseDatabase.getInstance();
+                            databaseReference = rootNode.getReference("Users").child(Uid);
+                            databaseReference.addValueEventListener(new ValueEventListener() {
+                                @Override
+                                public void onDataChange(@NonNull DataSnapshot snapshot) {
+                                    String name = snapshot.child("name").getValue(String.class);
+                                    String phone = snapshot.child("phone").getValue(String.class);
+                                    mphone = phone;
+                                    String mask = phone.replaceAll("\\w(?=\\w{4})", "X");
+
+                                    detNama.setText(name);
+                                    detHP.setText(mask);
+
+                                }
+
+                                @Override
+                                public void onCancelled(@NonNull DatabaseError error) {
+
+                                }
+                            });
+                            //ambil alamat untuk maps
+                            databaseReferenceCV = rootNode.getReference("Users").child(Uid).child("CV");
+                            databaseReferenceCV.addValueEventListener(new ValueEventListener() {
+                                @Override
+                                public void onDataChange(@NonNull DataSnapshot snapshot) {
+                                    String alamat = snapshot.child("alamat").getValue(String.class);
+                                    TextView tvAttent = findViewById(R.id.warning);
+                                    if (alamat!=null){
+                                        getLatLng(judul,alamat);
+                                        tvAttent.setVisibility(View.GONE);
+                                    }
+                                    else {
+                                        tvAttent.setVisibility(View.VISIBLE);
+                                    }
+                                }
+                                @Override
+                                public void onCancelled(@NonNull DatabaseError error) {
+
+                                }
+                            });
                         }
                     }
                 })
                 .addOnFailureListener(new OnFailureListener() {
                     @Override
                     public void onFailure(@NonNull Exception e) {
-
+                        Toast.makeText(DetailContent.this,"Failed to load data",Toast.LENGTH_SHORT).show();
                     }
                 });
     }
@@ -229,9 +300,11 @@ public class DetailContent extends AppCompatActivity implements OnMapReadyCallba
         }
     }
 
+    //inisialisasi map
     @Override
     public void onMapReady(@NonNull MapboxMap mapboxMap) {
         DetailContent.this.mapboxMap = mapboxMap;
+
         mapboxMap.setStyle(new Style.Builder().fromUri("mapbox://styles/mapbox/cjerxnqt3cgvp2rmyuxbeqme7"),
                 new Style.OnStyleLoaded() {
                     @Override
@@ -241,6 +314,41 @@ public class DetailContent extends AppCompatActivity implements OnMapReadyCallba
                 });
     }
 
+    //add marker
+    private void getLatLng(String judul,String alamat){
+        Point point = Point.fromLngLat(110.36083,-7.78278);
+        MapboxGeocoding mapboxGeocoding = MapboxGeocoding.builder()
+                .accessToken(getString(R.string.mapbox_access_token))
+                .query(alamat)
+                .proximity(point)
+                .build();
+
+        mapboxGeocoding.enqueueCall(new Callback<GeocodingResponse>() {
+            @Override
+            public void onResponse(Call<GeocodingResponse> call, Response<GeocodingResponse> response) {
+                double Latitude = response.body().features().get(0).center().latitude();
+                double Longitude = response.body().features().get(0).center().longitude();
+                MarkerOptions options = new MarkerOptions();
+                options.title(judul);
+                options.position(new LatLng(Latitude,Longitude));
+                mapboxMap.addMarker(options);
+
+                mapboxMap.animateCamera(CameraUpdateFactory.newCameraPosition(
+                        new CameraPosition.Builder()
+                                .target(new LatLng(Latitude,Longitude))
+                                .zoom(12)
+                                .build()), 4000);
+
+            }
+
+            @Override
+            public void onFailure(Call<GeocodingResponse> call, Throwable t) {
+
+            }
+        });
+    }
+
+    //add lokasi device
     @SuppressWarnings( {"MissingPermission"})
     private void enableLocationComponent(Style loadedMapStyle) {
         // Check if permissions are enabled and if not request
@@ -280,7 +388,7 @@ public class DetailContent extends AppCompatActivity implements OnMapReadyCallba
                 });
     }
 
-    private void uploadData(String Uid, String judul, int upah, String desk, String mUri, String idKon, boolean state) {
+    private void uploadData(String Uid, String judul, int upah, String desk, String mUri, String idKon, String daerah) {
         Map<String, Object> doc = new HashMap<>();
 
         doc.put("Uid", Uid);
@@ -289,18 +397,19 @@ public class DetailContent extends AppCompatActivity implements OnMapReadyCallba
         doc.put("Deskripsi", desk);
         doc.put("uri", mUri);
         doc.put("id", idKon);
-        doc.put("state", state);
+        doc.put("daerah", daerah);
 
         mSecondDBRef.collection("Fav").document(Uid).collection("user").document(idKon).set(doc)
                 .addOnCompleteListener(new OnCompleteListener<Void>() {
                     @Override
                     public void onComplete(@NonNull Task<Void> task) {
+                        Toast.makeText(DetailContent.this,"saved to favorite",Toast.LENGTH_SHORT).show();
                     }
                 })
                 .addOnFailureListener(new OnFailureListener() {
                     @Override
                     public void onFailure(@NonNull Exception e) {
-
+                        Toast.makeText(DetailContent.this,"Error, Please check internet connection and Try Again", Toast.LENGTH_SHORT).show();
                     }
                 });
     }

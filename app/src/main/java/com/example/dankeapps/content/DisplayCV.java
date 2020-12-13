@@ -20,7 +20,7 @@ import com.google.firebase.database.ValueEventListener;
 public class DisplayCV extends AppCompatActivity {
 
     FirebaseDatabase rootNode;
-    DatabaseReference databaseReference;
+    DatabaseReference databaseReference, databaseReference2;
     TextView Tusername,Tname,Talamat,Tusia,Tphone,Tpendidikan,Tkeahlian,Tpengalaman,Tgender,Ttawar,Temail;
     Button back;
 
@@ -54,29 +54,41 @@ public class DisplayCV extends AppCompatActivity {
                 String username = dataSnapshot.child("username").getValue(String.class);
                 String email = dataSnapshot.child("email").getValue(String.class);
                 String phone = dataSnapshot.child("phone").getValue(String.class);
-                String usia = dataSnapshot.child("usia").getValue(String.class);
-                String pendidikan = dataSnapshot.child("pendidikan").getValue(String.class);
-                String pengalaman = dataSnapshot.child("pengalaman").getValue(String.class);
-                String tawar = dataSnapshot.child("tawar").getValue(String.class);
-                String keahlian = dataSnapshot.child("keahlian").getValue(String.class);
-                String alamat = dataSnapshot.child("alamat").getValue(String.class);
-                String gender = dataSnapshot.child("gender").getValue(String.class);
 
                 Tusername.setText(username);
                 Tname.setText(name);
-                Tusia.setText(usia);
-                Tgender.setText(gender);
                 Tphone.setText(phone);
                 Temail.setText(email);
+            }
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+
+        databaseReference2 = rootNode.getReference("Users").child(Uid).child("CV");
+        databaseReference2.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                String usia = snapshot.child("usia").getValue(String.class);
+                String pendidikan = snapshot.child("pendidikan").getValue(String.class);
+                String pengalaman = snapshot.child("pengalaman").getValue(String.class);
+                String tawar = snapshot.child("tawar").getValue(String.class);
+                String keahlian = snapshot.child("keahlian").getValue(String.class);
+                String alamat = snapshot.child("alamat").getValue(String.class);
+                String gender = snapshot.child("gender").getValue(String.class);
+
                 Talamat.setText(alamat);
                 Tpendidikan.setText(pendidikan);
                 Ttawar.setText(tawar);
                 Tkeahlian.setText(keahlian);
                 Tpengalaman.setText(pengalaman);
-
+                Tusia.setText(usia);
+                Tgender.setText(gender);
             }
+
             @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
+            public void onCancelled(@NonNull DatabaseError error) {
 
             }
         });
