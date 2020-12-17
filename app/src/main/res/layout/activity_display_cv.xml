@@ -20,16 +20,16 @@
 
             <ImageView
                 android:id="@+id/cvPP"
-                android:layout_width="138dp"
-                android:layout_height="130dp"
+                android:layout_width="123dp"
+                android:layout_height="114dp"
                 android:layout_gravity="center_horizontal"
                 android:layout_margin="5dp"
-                android:src="@drawable/ic_account_circle_black_24dp"/>
+                android:src="@drawable/ic_account_circle_black_24dp" />
 
             <TextView
                 android:id="@+id/cvUsername"
                 android:layout_width="match_parent"
-                android:layout_height="35dp"
+                android:layout_height="50dp"
                 android:hint="Username"
                 android:textSize="20sp"
                 android:background="@drawable/bg_rect"
@@ -38,16 +38,16 @@
             <TextView
                 android:id="@+id/cvName"
                 android:layout_width="match_parent"
-                android:layout_height="35dp"
+                android:layout_height="50dp"
                 android:layout_gravity="center_vertical"
-                android:hint="name"
+                android:hint="Name"
                 android:textSize="20sp"
                 android:background="@drawable/bg_rect"
                 android:layout_marginTop="10dp"/>
             <TextView
                 android:id="@+id/cvusia"
                 android:layout_width="match_parent"
-                android:layout_height="35dp"
+                android:layout_height="50dp"
                 android:layout_gravity="center_vertical"
                 android:hint="Usia"
                 android:textSize="20sp"
@@ -56,7 +56,7 @@
             <TextView
                 android:id="@+id/cvgender"
                 android:layout_width="match_parent"
-                android:layout_height="35dp"
+                android:layout_height="50dp"
                 android:layout_gravity="center_vertical"
                 android:hint="Gender"
                 android:textSize="20sp"
@@ -65,7 +65,7 @@
             <TextView
                 android:id="@+id/cvphone"
                 android:layout_width="match_parent"
-                android:layout_height="35dp"
+                android:layout_height="50dp"
                 android:layout_gravity="center_vertical"
                 android:hint="Phone"
                 android:textSize="20sp"
@@ -74,7 +74,7 @@
             <TextView
                 android:id="@+id/cvemail"
                 android:layout_width="match_parent"
-                android:layout_height="35dp"
+                android:layout_height="50dp"
                 android:layout_gravity="center_vertical"
                 android:hint="Email"
                 android:textSize="20sp"
@@ -84,7 +84,7 @@
                 android:id="@+id/cvalamat"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:minHeight="35dp"
+                android:minHeight="50dp"
                 android:layout_gravity="start"
                 android:hint="Alamat"
                 android:textSize="20sp"
@@ -93,7 +93,7 @@
             <TextView
                 android:id="@+id/cvpendidikan"
                 android:layout_width="match_parent"
-                android:layout_height="35dp"
+                android:layout_height="50dp"
                 android:layout_gravity="center_vertical"
                 android:hint="Pendidikan"
                 android:textSize="20sp"
@@ -103,7 +103,7 @@
                 android:id="@+id/cvtawar"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:minHeight="35dp"
+                android:minHeight="50dp"
                 android:layout_gravity="start"
                 android:hint="Jasa yang ditawarkan"
                 android:textSize="20sp"
@@ -113,7 +113,7 @@
                 android:id="@+id/cvkeahlian"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:minHeight="35dp"
+                android:minHeight="50dp"
                 android:layout_gravity="start"
                 android:hint="Keahlian"
                 android:textSize="20sp"
@@ -123,7 +123,7 @@
                 android:id="@+id/cvpengalaman"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:minHeight="35dp"
+                android:minHeight="50dp"
                 android:layout_gravity="start"
                 android:hint="Pengalaman"
                 android:textSize="20sp"
