@@ -283,8 +283,7 @@ public class MainActivity extends AppCompatActivity {
                 .build();
         adapter.updateOptions(Content);
     }
-
-
+    
     private long backPressedTime;
     private Toast backToast;
     @Override

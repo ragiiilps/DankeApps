@@ -49,7 +49,7 @@ public class PostJasa extends AppCompatActivity implements AdapterView.OnItemSel
 
     TextInputLayout mJudulPst, mUpahPst, mDeskripsiPst, mDaerahPst;
     TextView imgUrl, saveUri;
-    Button mPostBtn, mImageBtn;
+    Button mPostBtn, mImageBtn, mCancelBtn;
     ProgressBar pb;
     FirebaseAuth mAuth, fAuth;
     FirebaseDatabase rootNode;
@@ -97,6 +97,7 @@ public class PostJasa extends AppCompatActivity implements AdapterView.OnItemSel
         mDaerahPst = findViewById(R.id.daerahPst);
         mPostBtn = findViewById(R.id.PostBtn);
         mImageBtn = findViewById(R.id.imagePstBtn);
+        mCancelBtn = findViewById(R.id.CancelBtn);
         imgUrl = findViewById(R.id.imgUrl);
         saveUri = findViewById(R.id.saveUri);
         pb = findViewById(R.id.progressbar);
@@ -136,7 +137,7 @@ public class PostJasa extends AppCompatActivity implements AdapterView.OnItemSel
             }
         });
 
-        //ambil data input konten
+        //ambil data & post ke db input konten
         mPostBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -155,6 +156,13 @@ public class PostJasa extends AppCompatActivity implements AdapterView.OnItemSel
                 String daerah = mDaerahPst.getEditText().getText().toString().trim();
 
                 uploadData(judul, Upah, Deskrpsi, Kategori, Uid, daerah);
+            }
+        });
+
+        mCancelBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
             }
         });
 

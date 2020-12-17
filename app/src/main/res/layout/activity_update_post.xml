@@ -1,18 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    tools:context=".content.PostJasa">
-
-    <include
-        android:id="@+id/toolbar4"
-        layout="@layout/toolbar4" />
+    tools:context=".content.UpdatePostActivity"
+    android:orientation="vertical">
 
     <ProgressBar
-        android:id="@+id/progressbar"
+        android:id="@+id/progressbarupdate"
         style="?android:attr/progressBarStyleHorizontal"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
@@ -24,7 +20,7 @@
         android:visibility="invisible"/>
 
     <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/judulPst"
+        android:id="@+id/judulPstUpdate"
         android:layout_width="350dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="20dp"
@@ -39,7 +35,7 @@
     </com.google.android.material.textfield.TextInputLayout>
 
     <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/upahPst"
+        android:id="@+id/upahPstUpdate"
         android:layout_width="350dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
@@ -54,7 +50,7 @@
     </com.google.android.material.textfield.TextInputLayout>
 
     <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/deskripsiPst"
+        android:id="@+id/deskripsiPstUpdate"
         android:layout_width="350dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
@@ -72,7 +68,7 @@
     </com.google.android.material.textfield.TextInputLayout>
 
     <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/daerahPst"
+        android:id="@+id/daerahPstUpdate"
         android:layout_width="350dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
@@ -100,7 +96,7 @@
             android:gravity="start"/>
 
         <Spinner
-            android:id="@+id/tagSpinner"
+            android:id="@+id/tagSpinnerUpdate"
             android:autofillHints="@string/kategori"
             android:layout_width="350dp"
             android:gravity="start"
@@ -119,27 +115,27 @@
         >
 
         <Button
-            android:id="@+id/imagePstBtn"
+            android:id="@+id/imagePstBtnUpdate"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:hint="Add"/>
 
         <TextView
-            android:id="@+id/imgUrl"
+            android:id="@+id/imgUrlUpdate"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_toEndOf="@+id/imagePstBtn"
+            android:layout_toEndOf="@+id/imagePstBtnUpdate"
             android:hint="tambah gambar"
             android:layout_centerVertical="true"
-            android:layout_marginLeft="5dp"/>
+            android:layout_marginStart="5dp"/>
 
         <TextView
-            android:id="@+id/saveUri"
+            android:id="@+id/saveUriUpdate"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_toEndOf="@id/imgUrl"
+            android:layout_toEndOf="@id/imgUrlUpdate"
             android:layout_centerVertical="true"
-            android:layout_marginLeft="3dp"
+            android:layout_marginStart="3dp"
             android:visibility="invisible"/>
 
     </RelativeLayout>
@@ -151,15 +147,15 @@
         android:layout_gravity="center_horizontal">
 
         <Button
-            android:id="@+id/PostBtn"
-            android:text="Post"
+            android:id="@+id/UpdateBtn"
+            android:text="Update"
             android:textColor="@color/white"
             android:layout_width="120dp"
             android:layout_height="wrap_content"
             android:background="@drawable/bentuk_button2"
             android:layout_toEndOf="@id/middledivide"
-            android:padding="10dp"
-            android:layout_centerInParent="true"/>
+            android:layout_centerInParent="true"
+            android:padding="10dp"/>
 
         <Button
             android:id="@+id/middledivide"
@@ -181,6 +177,5 @@
             android:padding="10dp"/>
 
     </RelativeLayout>
-
 
 </LinearLayout>

@@ -16,6 +16,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.Toolbar;
 
+import com.example.dankeapps.content.EditPostActivity;
 import com.example.dankeapps.content.PostJasa;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -42,7 +43,7 @@ public class Account extends AppCompatActivity {
     TextView namaText,Vnama,Valamat,Vusia,Vphone,Vpendidikan,Vtawar,Vkeahlian,Vpengalaman, Vcv, Vkelamin,
             Pnama, Palamat, Pusia, Pphone, Ppendidikan, Ptawar, Pkeahlian, Ppengalaman, Pkelamin, simpanUri;
     ImageView profilPic;
-    Button notifBtn,editInfoBtn,editCVBtn,logoutBtn,isiCVBtn;
+    Button notifBtn,editInfoBtn,editCVBtn,logoutBtn,isiCVBtn,mypostBtn;
     FirebaseDatabase rootNode;
     DatabaseReference databaseReference;
     FirebaseAuth fAuth;
@@ -58,7 +59,7 @@ public class Account extends AppCompatActivity {
         BottomNavigationView bottomNavigationView = findViewById(R.id.bottom_navi);
 
         toolbar = findViewById(R.id.toolbar);
-
+        mypostBtn = findViewById(R.id.btnMypost);
         simpanUri = findViewById(R.id.simpanUri);
         Vkelamin = findViewById(R.id.kelamincv_text);
         isiCVBtn = findViewById(R.id.isicv_btn);
@@ -180,6 +181,12 @@ public class Account extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 startActivity(new Intent(getApplicationContext(),AccountInfo.class));
+            }
+        });
+        mypostBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(getApplicationContext(), EditPostActivity.class));
             }
         });
 

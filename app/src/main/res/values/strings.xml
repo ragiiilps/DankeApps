@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">DankeApps</string>
+    <string name="app_name">Danke!</string>
     <string name="ganti">Gambar ditambahkan</string>
     <string name="kategori">Kategori Jasa</string>
     <string-array name="Spinner_items">

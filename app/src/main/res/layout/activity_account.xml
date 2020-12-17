@@ -57,6 +57,16 @@
             android:background="@color/pastel"
             android:text="Edit Profil" />
 
+        <Button
+            android:id="@+id/btnMypost"
+            android:background="@color/pastel"
+            android:text="My Post"
+            android:layout_width="wrap_content"
+            android:layout_height="38dp"
+            android:layout_below="@+id/editprofil_btn"
+            android:layout_alignStart="@id/editprofil_btn"
+            android:layout_marginTop="10dp"/>
+
 
     </RelativeLayout>
 
@@ -233,7 +243,6 @@
         </RelativeLayout>
 
     </ScrollView>
-
 
     <com.google.android.material.bottomnavigation.BottomNavigationView
         android:id="@+id/bottom_navi"
