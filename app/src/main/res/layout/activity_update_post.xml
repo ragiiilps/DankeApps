@@ -7,6 +7,10 @@
     tools:context=".content.UpdatePostActivity"
     android:orientation="vertical">
 
+    <include
+        android:id="@+id/toolbaredit"
+        layout="@layout/toolbar_editpost" />
+
     <ProgressBar
         android:id="@+id/progressbarupdate"
         style="?android:attr/progressBarStyleHorizontal"
