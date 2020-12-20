@@ -14,7 +14,8 @@
         android:layout_height="263dp"
         android:layout_marginTop="20dp"
         android:layout_gravity="center_horizontal"
-        android:src="@drawable/danke_logo" />
+        android:src="@drawable/danke_logo"
+        android:adjustViewBounds="true"/>
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/login_email"
@@ -85,6 +86,5 @@
         android:indeterminateTintMode="src_atop"
         android:indeterminateTint="@color/ijo"
         android:visibility="invisible"/>
-
 
 </LinearLayout>

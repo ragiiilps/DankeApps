@@ -2,10 +2,12 @@ package com.example.dankeapps.content;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
@@ -86,6 +88,7 @@ public class UpdatePostActivity extends AppCompatActivity implements AdapterView
         });
 
         mPostBtn.setOnClickListener(new View.OnClickListener() {
+            @RequiresApi(api = Build.VERSION_CODES.O)
             @Override
             public void onClick(View v) {
                 String title = mJudulPst.getEditText().getText().toString().trim();
@@ -248,11 +251,13 @@ public class UpdatePostActivity extends AppCompatActivity implements AdapterView
                         String pay = String.valueOf(upah);
                         String daerah = documentSnapshot.getString("daerah");
                         String kategori = documentSnapshot.getString("Kategori");
+                        String uri = documentSnapshot.getString("uri");
 
                         mJudulPst.getEditText().setText(judul);
                         mUpahPst.getEditText().setText(pay);
                         mDeskripsiPst.getEditText().setText(desc);
                         mDaerahPst.getEditText().setText(daerah);
+                        saveUri.setText(uri);
                         tag.setSelection(0);
                     }
                 })
