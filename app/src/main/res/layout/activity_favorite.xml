@@ -5,21 +5,27 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".MainActivity">
-    <TextView
-        android:id="@+id/home_page"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Favorite"
-        android:textSize="20pt"
-        android:layout_centerInParent="true"
-        />
+
+    <include
+        android:id="@+id/toolbar_fav"
+        layout="@layout/toolbar_fav" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recyclerViewFav"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_margin="10dp"
+        android:layout_below="@id/toolbar_fav"
+        android:layout_above="@id/bottom_navi">
+
+    </androidx.recyclerview.widget.RecyclerView>
     <com.google.android.material.bottomnavigation.BottomNavigationView
         android:id="@+id/bottom_navi"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         app:menu="@menu/menu_navi"
-        app:itemBackground="@color/ijo"
+        app:itemBackground="@color/white"
         app:itemIconTint="@drawable/selector"
         app:itemTextColor="@drawable/selector"/>
 

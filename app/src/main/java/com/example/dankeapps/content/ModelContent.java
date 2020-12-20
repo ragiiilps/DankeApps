@@ -7,19 +7,35 @@ public class ModelContent {
 
     String id;
     String Judul;
-    String Upah;
-    String Deskripsi;
+    int Upah;
+    String Deskripsi, daerah;
     String uri;
+    String name, username, email, phone, Uid;
+    String Kategori, createdOn;
+
+    public ModelContent(String kategori, String createdOn) {
+        Kategori = kategori;
+        this.createdOn = createdOn;
+    }
+
+    public ModelContent(String name, String username, String email, String phone, String Uid) {
+        this.name = name;
+        this.username = username;
+        this.email = email;
+        this.phone = phone;
+        this.Uid = Uid;
+    }
 
     public ModelContent() {
     }
 
-    public ModelContent(String id, String judul, String upah, String deskripsi, String uri) {
+    public ModelContent(String id, String judul, int upah, String deskripsi, String uri, String daerah) {
         this.id = id;
         this.Judul = judul;
         this.Upah = upah;
         this.Deskripsi = deskripsi;
         this.uri = uri;
+        this.daerah = daerah;
     }
 
     public String getId() {
@@ -38,11 +54,11 @@ public class ModelContent {
         this.Judul = judul;
     }
 
-    public String getUpah() {
+    public int getUpah() {
         return Upah;
     }
 
-    public void setUpah(String upah) {
+    public void setUpah(int upah) {
         this.Upah = upah;
     }
 
@@ -60,5 +76,69 @@ public class ModelContent {
 
     public void setUri(String uri) {
         this.uri = uri;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public String getPhone() {
+        return phone;
+    }
+
+    public void setPhone(String phone) {
+        this.phone = phone;
+    }
+
+    public String getUid() {
+        return Uid;
+    }
+
+    public void setUid(String uid) {
+        Uid = uid;
+    }
+
+    public String getDaerah() {
+        return daerah;
+    }
+
+    public void setDaerah(String daerah) {
+        this.daerah = daerah;
+    }
+
+    public String getKategori() {
+        return Kategori;
+    }
+
+    public void setKategori(String kategori) {
+        Kategori = kategori;
+    }
+
+    public String getCreatedOn() {
+        return createdOn;
+    }
+
+    public void setCreatedOn(String createdOn) {
+        this.createdOn = createdOn;
     }
 }

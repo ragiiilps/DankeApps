@@ -5,8 +5,10 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.ProgressBar;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -25,6 +27,11 @@ import com.google.firebase.FirebaseOptions;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
@@ -38,18 +45,22 @@ import java.util.Locale;
 import java.util.Map;
 import java.util.UUID;
 
-public class PostJasa extends AppCompatActivity {
+public class PostJasa extends AppCompatActivity implements AdapterView.OnItemSelectedListener {
 
-    TextInputLayout mJudulPst, mUpahPst, mDeskripsiPst;
-    TextView imgUrl;
-    Button mPostBtn, mImageBtn;
+    TextInputLayout mJudulPst, mUpahPst, mDeskripsiPst, mDaerahPst;
+    TextView imgUrl, saveUri;
+    Button mPostBtn, mImageBtn, mCancelBtn;
     ProgressBar pb;
-    FirebaseAuth mAuth;
+    FirebaseAuth mAuth, fAuth;
+    FirebaseDatabase rootNode;
+    DatabaseReference databaseReference;
     FirebaseApp mMySecondApp;
     FirebaseFirestore mSecondDBRef;
     FirebaseStorage mSecondStorage;
     StorageReference storageReference;
     Uri imageUrl;
+    Spinner tag;
+    String Katgri, name, username, email, phone;
 
     //inisialisasi 2nd firebaseapp
     private void initSecondFirebaseAcct(){
@@ -83,13 +94,42 @@ public class PostJasa extends AppCompatActivity {
         mJudulPst = findViewById(R.id.judulPst);
         mDeskripsiPst = findViewById(R.id.deskripsiPst);
         mUpahPst = findViewById(R.id.upahPst);
+        mDaerahPst = findViewById(R.id.daerahPst);
         mPostBtn = findViewById(R.id.PostBtn);
         mImageBtn = findViewById(R.id.imagePstBtn);
+        mCancelBtn = findViewById(R.id.CancelBtn);
         imgUrl = findViewById(R.id.imgUrl);
+        saveUri = findViewById(R.id.saveUri);
+        pb = findViewById(R.id.progressbar);
+        tag = findViewById(R.id.tagSpinner);
 
-        pb = new ProgressBar(this);
         initSecondFirebaseAcct();
 
+        // add data pengiklan
+        fAuth = FirebaseAuth.getInstance();
+        String Uid = fAuth.getCurrentUser().getUid();
+        rootNode = FirebaseDatabase.getInstance();
+        databaseReference = rootNode.getReference("Users").child(Uid);
+
+        databaseReference.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                name = dataSnapshot.child("name").getValue(String.class);
+                username = dataSnapshot.child("username").getValue(String.class);
+                email = dataSnapshot.child("email").getValue(String.class);
+                phone = dataSnapshot.child("phone").getValue(String.class);
+
+            }
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+                Toast.makeText(PostJasa.this, "Error, please try again", Toast.LENGTH_SHORT).show();
+            }
+        });
+
+        //spinner kategori
+        tag.setOnItemSelectedListener(this);
+
+        //add gambar
         mImageBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -97,7 +137,7 @@ public class PostJasa extends AppCompatActivity {
             }
         });
 
-        //ambil data input konten
+        //ambil data & post ke db input konten
         mPostBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -110,12 +150,23 @@ public class PostJasa extends AppCompatActivity {
                 String judul = String.join(" ", cap);
 
                 String Deskrpsi = mDeskripsiPst.getEditText().getText().toString().trim();
-                String Upah = mUpahPst.getEditText().getText().toString().trim();
+                String Pay = mUpahPst.getEditText().getText().toString().trim();
+                int Upah = Integer.parseInt(Pay);
+                String Kategori = Katgri;
+                String daerah = mDaerahPst.getEditText().getText().toString().trim();
 
-                uploadData(judul, Upah, Deskrpsi);
+                uploadData(judul, Upah, Deskrpsi, Kategori, Uid, daerah);
             }
         });
 
+        mCancelBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
+
+        //jaga-jaga nek error pas ambil uri
         FirebaseUser user = mAuth.getCurrentUser();
         if (user != null) {
         } else {
@@ -154,10 +205,13 @@ public class PostJasa extends AppCompatActivity {
                             @Override
                             public void onSuccess(Uri uri) {
                                 Uri downloadUri = uri;
-                                imgUrl.setText(downloadUri.toString());
+                                imgUrl.setText(R.string.ganti);
+                                saveUri.setText(downloadUri.toString());
+                                saveUri.setVisibility(View.GONE);
                             }
                         });
                         Toast.makeText(PostJasa.this, "Image Uploaded",  Toast.LENGTH_SHORT).show();
+                        pb.setVisibility(View.GONE);
 
                     }
                 })
@@ -165,15 +219,17 @@ public class PostJasa extends AppCompatActivity {
                     @Override
                     public void onFailure(@NonNull Exception exception) {
                         Toast.makeText(PostJasa.this, "Failed", Toast.LENGTH_SHORT).show();
+                        pb.setVisibility(View.GONE);
                     }
                 });
+        pb.setVisibility(View.VISIBLE);
     }
 
     //metode upload data ke firestore
-    private void uploadData(String judul, String Upah, String Deskrpsi) {
+    private void uploadData(String judul, int Upah, String Deskrpsi, String Kategori, String Uid, String daerah) {
         String id = UUID.randomUUID().toString();
         String currentDateTime = java.text.DateFormat.getDateTimeInstance().format(new Date());
-        String Guri = imgUrl.getText().toString();
+        String Guri = saveUri.getText().toString();
 
         Map<String, Object> doc = new HashMap<>();
         doc.put("id", id);
@@ -181,7 +237,14 @@ public class PostJasa extends AppCompatActivity {
         doc.put("Judul", judul);
         doc.put("Upah", Upah);
         doc.put("Deskripsi", Deskrpsi);
+        doc.put("Kategori", Kategori);
         doc.put("uri", Guri);
+        doc.put("name", name);
+        doc.put("username", username);
+        doc.put("email", email);
+        doc.put("phone", phone);
+        doc.put("Uid", Uid);
+        doc.put("daerah", daerah);
 
         mSecondDBRef.collection("Content").document(id).set(doc)
                 .addOnCompleteListener(new OnCompleteListener<Void>() {
@@ -189,14 +252,17 @@ public class PostJasa extends AppCompatActivity {
                     public void onComplete(@NonNull Task<Void> task) {
                         Toast.makeText(PostJasa.this, "Uploaded",  Toast.LENGTH_SHORT).show();
                         finish();
+                        pb.setVisibility(View.GONE);
                     }
                 })
                 .addOnFailureListener(new OnFailureListener() {
                     @Override
                     public void onFailure(@NonNull Exception e) {
                         Toast.makeText(PostJasa.this, "Failed", Toast.LENGTH_SHORT).show();
+                        pb.setVisibility(View.GONE);
                     }
                 });
+        pb.setVisibility(View.VISIBLE);
     }
 
     //auth anonymous buat dapet token storage
@@ -211,5 +277,16 @@ public class PostJasa extends AppCompatActivity {
                     public void onFailure(@NonNull Exception exception) {
                     }
                 });
+    }
+
+    //kategori
+    @Override
+    public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+        Katgri = parent.getSelectedItem().toString().trim();
+    }
+
+    @Override
+    public void onNothingSelected(AdapterView<?> parent) {
+
     }
 }

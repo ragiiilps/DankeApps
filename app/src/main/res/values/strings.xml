@@ -1,3 +1,19 @@
 <resources>
-    <string name="app_name">DankeApps</string>
+    <string name="app_name">Danke!</string>
+    <string name="ganti">Gambar ditambahkan</string>
+    <string name="kategori">Kategori Jasa</string>
+    <string-array name="Spinner_items">
+        <item>Pendidikan</item>
+        <item>Otomotif</item>
+        <item>Seni</item>
+        <item>Teknologi</item>
+        <item>Pertukangan</item>
+        <item>Perkebunan</item>
+        <item>Lain-lain</item>
+    </string-array>
+    <string name="kisaranUpah">Kisaran Upah</string>
+    <string name="mapbox_access_token">pk.eyJ1IjoibGVmZmFlbnRlaW4iLCJhIjoiY2todXZqMGZjMWdncjJycGJlMXEwZzA1byJ9.cZfKHXMVYO6T26F6D6alAA</string>
+    <string name="user_location_permission_explanation">Tolong izinkan agar apliasi berjalan dengan baik</string>
+    <string name="user_location_permission_not_granted">Maps tidak bisa digunakan</string>
+    <string name="noAddresss">Lokasi tidak ditemukan. Pengiklan tidak menyediakan alamat lengkap</string>
 </resources>

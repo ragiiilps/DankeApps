@@ -4,10 +4,10 @@ buildscript {
     repositories {
         google()
         jcenter()
-        
+        mavenCentral()
     }
     dependencies {
-        classpath 'com.android.tools.build:gradle:4.1.0'
+        classpath 'com.android.tools.build:gradle:4.1.1'
         classpath 'com.google.gms:google-services:4.3.4'
 
         // NOTE: Do not place your application dependencies here; they belong
@@ -19,7 +19,18 @@ allprojects {
     repositories {
         google()
         jcenter()
-        
+        maven{
+            url 'https://api.mapbox.com/downloads/v2/releases/maven'
+            authentication {
+                basic(BasicAuthentication)
+            }
+            credentials{
+                username= 'mapbox'
+                password = project.properties['MAPBOX_DOWNLOADS_TOKEN'] ?: ""
+            }
+        }
+        maven {url 'https://mapbox.bintray.com/mapbox'}
+
     }
 }
 

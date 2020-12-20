@@ -3,6 +3,7 @@
     package="com.example.dankeapps">
 
     <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
 
     <application
         android:allowBackup="true"
@@ -11,9 +12,15 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+        <activity android:name=".content.UpdatePostActivity"></activity>
+        <activity android:name=".content.EditPostActivity" />
         <activity android:name=".content.DetailContent" />
         <activity android:name=".EditCV" />
+        <activity
+            android:name=".content.FilterContent"
+            android:theme="@style/AppTheme.popTheme" />
         <activity android:name=".content.PostJasa" />
+        <activity android:name=".content.DisplayCV" />
         <activity android:name=".AccountInfo" />
         <activity android:name=".PengisianCV" />
         <activity android:name=".Register" />

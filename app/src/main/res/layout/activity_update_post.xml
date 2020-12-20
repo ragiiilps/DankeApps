@@ -1,0 +1,198 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".content.UpdatePostActivity"
+    android:orientation="vertical">
+
+    <include
+        android:id="@+id/toolbaredit"
+        layout="@layout/toolbar_editpost" />
+
+    <ProgressBar
+        android:id="@+id/progressbarupdate"
+        style="?android:attr/progressBarStyleHorizontal"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:indeterminate="true"
+        android:max="100"
+        android:backgroundTint="@color/white"
+        android:indeterminateTint="@color/ijo"
+        android:layout_marginTop="1dp"
+        android:visibility="invisible"/>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/judulPstUpdate"
+                android:layout_width="350dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                android:layout_gravity="center_horizontal"
+                android:hint="Judul Jasa">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:layout_width="350dp"
+                    android:layout_height="wrap_content"
+                    android:inputType="text"/>
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/upahPstUpdate"
+                android:layout_width="350dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                android:layout_gravity="center_horizontal"
+                android:hint="Besaran upah">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:layout_width="350dp"
+                    android:layout_height="wrap_content"
+                    android:inputType="number"/>
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/deskripsiPstUpdate"
+                android:layout_width="350dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:minHeight="200dp"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                android:layout_gravity="center_horizontal"
+                android:hint="Deskripsi jasa yang ingin ditawarkan">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:layout_width="350dp"
+                    android:layout_height="wrap_content"
+                    android:minHeight="200dp"
+                    android:inputType="textMultiLine|textCapSentences"
+                    android:gravity="start"/>
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/daerahPstUpdate"
+                android:layout_width="350dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                android:layout_gravity="center_horizontal"
+                android:hint="Daerah penawaran jasa">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:layout_width="350dp"
+                    android:layout_height="wrap_content"
+                    android:inputType="text"/>
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:layout_width="350dp"
+                android:layout_marginTop="10dp"
+                android:layout_gravity="center_horizontal"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:hint="Kategori Jasa"
+                    android:layout_marginTop="-10dp"
+                    android:gravity="start"/>
+
+                <Spinner
+                    android:id="@+id/tagSpinnerUpdate"
+                    android:autofillHints="@string/kategori"
+                    android:layout_width="350dp"
+                    android:gravity="start"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:entries="@array/Spinner_items"
+                    android:layout_gravity="center_horizontal"/>
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <RelativeLayout
+                android:layout_width="350dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="10dp"
+                >
+
+                <Button
+                    android:id="@+id/imagePstBtnUpdate"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:hint="Add"/>
+
+                <TextView
+                    android:id="@+id/imgUrlUpdate"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_toEndOf="@+id/imagePstBtnUpdate"
+                    android:hint="tambah gambar"
+                    android:layout_centerVertical="true"
+                    android:layout_marginStart="5dp"/>
+
+                <TextView
+                    android:id="@+id/saveUriUpdate"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_toEndOf="@id/imgUrlUpdate"
+                    android:layout_centerVertical="true"
+                    android:layout_marginStart="3dp"
+                    android:visibility="invisible"/>
+
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_margin="10dp"
+                android:layout_gravity="center_horizontal">
+
+                <Button
+                    android:id="@+id/UpdateBtn"
+                    android:text="Update"
+                    android:textColor="@color/white"
+                    android:layout_width="120dp"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/bentuk_button2"
+                    android:layout_toEndOf="@id/middledivide"
+                    android:layout_centerInParent="true"
+                    android:padding="10dp"/>
+
+                <Button
+                    android:id="@+id/middledivide"
+                    android:layout_width="2dp"
+                    android:layout_height="2dp"
+                    android:layout_centerInParent="true"
+                    android:padding="10dp"
+                    android:visibility="invisible"/>
+
+                <Button
+                    android:id="@+id/CancelBtn"
+                    android:text="Cancel"
+                    android:textColor="@color/white"
+                    android:layout_width="120dp"
+                    android:layout_height="wrap_content"
+                    android:layout_centerInParent="true"
+                    android:background="@drawable/bentuk_button1"
+                    android:layout_toStartOf="@id/middledivide"
+                    android:padding="10dp"/>
+
+            </RelativeLayout>
+
+        </LinearLayout>
+
+    </ScrollView>
+
+</LinearLayout>
