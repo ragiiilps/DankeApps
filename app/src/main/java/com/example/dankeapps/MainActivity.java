@@ -248,16 +248,16 @@ public class MainActivity extends AppCompatActivity {
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         Query query;
-        if (requestCode == 1 && resultCode == RESULT_OK) {
+        if (requestCode == 1 && resultCode == 4) {
             String kategori = data.getStringExtra("Kategori");
             int minup = data.getIntExtra("minup", 1);
-            int maxup = data.getIntExtra("maxup", 999999999);
+            int maxup = data.getIntExtra("maxup", 99999999);
 
             query = mSecondFirestore.collection("Content")
-                    .whereEqualTo("Kategori",kategori)
+                    .whereEqualTo("Kategori", kategori)
                     .whereGreaterThanOrEqualTo("Upah", minup)
                     .whereLessThanOrEqualTo("Upah", maxup)
-                    .orderBy("createdOn", Query.Direction.DESCENDING);
+                    .orderBy("Upah", Query.Direction.DESCENDING);
 
         } else if (requestCode == 1 && resultCode == 2) {
             int minup = data.getIntExtra("minup", 1);

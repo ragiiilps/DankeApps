@@ -75,7 +75,7 @@ public class FilterContent extends Activity {
 
                     }
                     // nek ora set range upah
-                    else if (radioGroup.getCheckedRadioButtonId() != -1){
+                    else if (radioGroup.getCheckedRadioButtonId() != -1 && min.equals("") && max.equals("")){
                         int radioId = radioGroup.getCheckedRadioButtonId();
                         radioButton = findViewById(radioId);
                         String kategori = radioButton.getText().toString();
@@ -96,7 +96,7 @@ public class FilterContent extends Activity {
                         intent.putExtra("Kategori", kategori);
                         intent.putExtra("minup", minup);
                         intent.putExtra("maxup", maxup);
-                        setResult(RESULT_OK, intent);
+                        setResult(4, intent);
                     }
                     finish();
                 }
