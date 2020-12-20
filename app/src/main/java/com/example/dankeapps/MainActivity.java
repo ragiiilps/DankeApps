@@ -2,6 +2,7 @@ package com.example.dankeapps;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 
 import androidx.recyclerview.widget.GridLayoutManager;
@@ -11,6 +12,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.preference.PreferenceManager;
@@ -213,6 +215,7 @@ public class MainActivity extends AppCompatActivity {
 
             }
 
+            @RequiresApi(api = Build.VERSION_CODES.O)
             @Override
             public void afterTextChanged(Editable s) {
                 Query query;
@@ -247,11 +250,11 @@ public class MainActivity extends AppCompatActivity {
         Query query;
         if (requestCode == 1 && resultCode == RESULT_OK) {
             String kategori = data.getStringExtra("Kategori");
-            int minup = data.getIntExtra("minup", 0);
+            int minup = data.getIntExtra("minup", 1);
             int maxup = data.getIntExtra("maxup", 999999999);
 
             query = mSecondFirestore.collection("Content")
-                    .whereEqualTo("Kategori", kategori)
+                    .whereEqualTo("Kategori",kategori)
                     .whereGreaterThanOrEqualTo("Upah", minup)
                     .whereLessThanOrEqualTo("Upah", maxup)
                     .orderBy("createdOn", Query.Direction.DESCENDING);
@@ -263,7 +266,7 @@ public class MainActivity extends AppCompatActivity {
             query = mSecondFirestore.collection("Content")
                     .whereGreaterThanOrEqualTo("Upah", minup)
                     .whereLessThanOrEqualTo("Upah", maxup)
-                    .orderBy("createdOn", Query.Direction.DESCENDING);
+                    .orderBy("Upah", Query.Direction.ASCENDING);
 
         }else if (requestCode == 1 && resultCode == 3){
             String kategori = data.getStringExtra("Kategori");

@@ -11,6 +11,12 @@ public class ModelContent {
     String Deskripsi, daerah;
     String uri;
     String name, username, email, phone, Uid;
+    String Kategori, createdOn;
+
+    public ModelContent(String kategori, String createdOn) {
+        Kategori = kategori;
+        this.createdOn = createdOn;
+    }
 
     public ModelContent(String name, String username, String email, String phone, String Uid) {
         this.name = name;
@@ -118,5 +124,21 @@ public class ModelContent {
 
     public void setDaerah(String daerah) {
         this.daerah = daerah;
+    }
+
+    public String getKategori() {
+        return Kategori;
+    }
+
+    public void setKategori(String kategori) {
+        Kategori = kategori;
+    }
+
+    public String getCreatedOn() {
+        return createdOn;
+    }
+
+    public void setCreatedOn(String createdOn) {
+        this.createdOn = createdOn;
     }
 }
