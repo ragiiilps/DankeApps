@@ -1,4 +1,4 @@
-package com.example.dankeapps;
+package com.warnetit.dankeapps;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;

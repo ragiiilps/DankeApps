@@ -1,4 +1,4 @@
-package com.example.dankeapps;
+package com.warnetit.dankeapps;
 
 import android.content.Context;
 

@@ -1,4 +1,4 @@
-package com.example.dankeapps.content;
+package com.warnetit.dankeapps.content;
 
 import com.google.firebase.database.IgnoreExtraProperties;
 

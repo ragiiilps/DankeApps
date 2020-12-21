@@ -1,4 +1,4 @@
-package com.example.dankeapps.content;
+package com.warnetit.dankeapps.content;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
@@ -9,12 +9,9 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
-import android.widget.Toast;
 
-import androidx.annotation.Nullable;
-
-import com.example.dankeapps.MainActivity;
-import com.example.dankeapps.R;
+import com.warnetit.dankeapps.MainActivity;
+import com.warnetit.dankeapps.R;
 import com.google.android.material.textfield.TextInputLayout;
 
 public class FilterContent extends Activity {

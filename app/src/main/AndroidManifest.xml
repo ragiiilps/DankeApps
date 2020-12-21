@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.example.dankeapps">
+    package="com.warnetit.dankeapps">
 
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
@@ -12,23 +12,23 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".content.UpdatePostActivity"></activity>
-        <activity android:name=".content.EditPostActivity" />
-        <activity android:name=".content.DetailContent" />
-        <activity android:name=".EditCV" />
+        <activity android:name="com.warnetit.dankeapps.content.UpdatePostActivity"></activity>
+        <activity android:name="com.warnetit.dankeapps.content.EditPostActivity" />
+        <activity android:name="com.warnetit.dankeapps.content.DetailContent" />
+        <activity android:name="com.warnetit.dankeapps.EditCV" />
         <activity
-            android:name=".content.FilterContent"
+            android:name="com.warnetit.dankeapps.content.FilterContent"
             android:theme="@style/AppTheme.popTheme" />
-        <activity android:name=".content.PostJasa" />
-        <activity android:name=".content.DisplayCV" />
-        <activity android:name=".AccountInfo" />
-        <activity android:name=".PengisianCV" />
-        <activity android:name=".Register" />
-        <activity android:name=".Login" />
-        <activity android:name=".MainActivity" />
-        <activity android:name=".Account" />
-        <activity android:name=".Favorite" />
-        <activity android:name=".WelcomeScreen">
+        <activity android:name="com.warnetit.dankeapps.content.PostJasa" />
+        <activity android:name="com.warnetit.dankeapps.content.DisplayCV" />
+        <activity android:name="com.warnetit.dankeapps.AccountInfo" />
+        <activity android:name="com.warnetit.dankeapps.PengisianCV" />
+        <activity android:name="com.warnetit.dankeapps.Register" />
+        <activity android:name="com.warnetit.dankeapps.Login" />
+        <activity android:name="com.warnetit.dankeapps.MainActivity" />
+        <activity android:name="com.warnetit.dankeapps.Account" />
+        <activity android:name="com.warnetit.dankeapps.Favorite" />
+        <activity android:name="com.warnetit.dankeapps.WelcomeScreen">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

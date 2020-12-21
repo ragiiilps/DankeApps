@@ -1,4 +1,4 @@
-package com.example.dankeapps;
+package com.warnetit.dankeapps;
 
 public class UserHelperClass {
 

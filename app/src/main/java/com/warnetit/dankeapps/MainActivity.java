@@ -1,4 +1,4 @@
-package com.example.dankeapps;
+package com.warnetit.dankeapps;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -11,13 +11,9 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Build;
 import android.os.Bundle;
-import android.os.Handler;
-import android.preference.PreferenceManager;
 import android.text.Editable;
-import android.text.Layout;
 import android.text.TextWatcher;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -33,10 +29,10 @@ import android.widget.Toast;
 
 
 import com.bumptech.glide.Glide;
-import com.example.dankeapps.content.DetailContent;
-import com.example.dankeapps.content.FilterContent;
-import com.example.dankeapps.content.ModelContent;
-import com.example.dankeapps.content.PostJasa;
+import com.warnetit.dankeapps.content.DetailContent;
+import com.warnetit.dankeapps.content.FilterContent;
+import com.warnetit.dankeapps.content.ModelContent;
+import com.warnetit.dankeapps.content.PostJasa;
 import com.firebase.ui.firestore.FirestoreRecyclerAdapter;
 import com.firebase.ui.firestore.FirestoreRecyclerOptions;
 import com.google.android.material.bottomnavigation.BottomNavigationView;

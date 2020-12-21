@@ -1,4 +1,4 @@
-package com.example.dankeapps.content;
+package com.warnetit.dankeapps;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -7,9 +7,11 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
@@ -17,10 +19,11 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
-import com.example.dankeapps.MainActivity;
-import com.example.dankeapps.R;
+import com.warnetit.dankeapps.content.DetailContent;
+import com.warnetit.dankeapps.content.ModelContent;
 import com.firebase.ui.firestore.FirestoreRecyclerAdapter;
 import com.firebase.ui.firestore.FirestoreRecyclerOptions;
+import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.firebase.FirebaseApp;
 import com.google.firebase.FirebaseOptions;
 import com.google.firebase.auth.FirebaseAuth;
@@ -28,30 +31,50 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreException;
 import com.google.firebase.firestore.Query;
 
-import timber.log.Timber;
+public class Favorite extends AppCompatActivity {
 
-public class EditPostActivity extends AppCompatActivity {
-
-    RecyclerView editRecyclerView;
     FirebaseApp mMySecondApp;
     FirebaseFirestore mSecondFirestore;
-    FirebaseAuth fAuth;
-    FirestoreRecyclerAdapter<ModelContent, EditPostActivity.ContentHolder> adapter;
+    RecyclerView mRecyclerView;
     GridLayoutManager gridLayoutManager;
+    FirestoreRecyclerAdapter<ModelContent, Favorite.ContentHolder> adapter;
+    FirebaseAuth fAuth;
+    String Uid;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_edit_post);
-        editRecyclerView = findViewById(R.id.editRecycler);
+        setContentView(R.layout.activity_favorite);
+        BottomNavigationView bottomNavigationView = findViewById(R.id.bottom_navi);
 
+        bottomNavigationView.setSelectedItemId(R.id.menu_fav);
+        mRecyclerView = findViewById(R.id.recyclerViewFav);
         fAuth = FirebaseAuth.getInstance();
-        String Uid = fAuth.getCurrentUser().getUid();
+        Uid = fAuth.getCurrentUser().getUid();
 
-        initSecondFirebaseAcct();
         init();
-        getContentList(Uid);
+        initSecondFirebaseAcct();
+        getContentList();
 
+        bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
+            @Override
+            public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
+                switch (menuItem.getItemId()){
+                    case R.id.menu_home :
+                        startActivity(new Intent(getApplicationContext(), MainActivity.class));
+                        overridePendingTransition(0,0);
+                        return true;
+                    case R.id.menu_fav :
+                        return true;
+                    case R.id.menu_account :
+                        startActivity(new Intent(getApplicationContext(), Account.class));
+                        overridePendingTransition(0,0);
+                        return true;
+                }
+
+                return false;
+            }
+        });
     }
 
     //inisialisasi 2nd firebaseapp
@@ -67,51 +90,51 @@ public class EditPostActivity extends AppCompatActivity {
             FirebaseApp.initializeApp(this, options, "dankeapps");
         }
         catch (Exception e){
-            Timber.tag("Firebase error").d("App already exist");
+            Log.d("Firebase error", "App already exist");
         }
 
         mMySecondApp = FirebaseApp.getInstance("dankeapps");
         mSecondFirestore = FirebaseFirestore.getInstance(mMySecondApp);
     }
 
-    //metode ambil konten dari firestore
-    private void getContentList(String Uid) {
-        Query query = mSecondFirestore.collection("Content")
-                .whereEqualTo("Uid", Uid)
-                .orderBy("createdOn", Query.Direction.DESCENDING);
+    //metode ambil konten dari firestore fav
+    private void getContentList() {
+        Query query = mSecondFirestore.collection("Fav")
+                .document(Uid).collection("user");
 
         FirestoreRecyclerOptions<ModelContent> Content = new FirestoreRecyclerOptions.Builder<ModelContent>()
                 .setQuery(query, ModelContent.class)
                 .build();
-
-        adapter = new FirestoreRecyclerAdapter<ModelContent, EditPostActivity.ContentHolder>(Content) {
+        adapter = new FirestoreRecyclerAdapter<ModelContent, Favorite.ContentHolder>(Content) {
             @SuppressLint("SetTextI18n")
             @Override
-            protected void onBindViewHolder(@NonNull final EditPostActivity.ContentHolder holder, final int position, @NonNull final ModelContent model) {
+            protected void onBindViewHolder(@NonNull final Favorite.ContentHolder holder, final int position, @NonNull final ModelContent model) {
                 holder.mJudulPst.setText(model.getJudul());
                 holder.mUpahPst.setText("Rp. " + model.getUpah());
-                holder.mdaerahPst.setText(model.getDaerah());
+                holder.mDaerahPst.setText(model.getDaerah());
                 Glide.with(getApplicationContext()).load(model.getUri()).into(holder.mThumbnail);
 
                 //passing data ke detail konten
                 holder.itemView.setOnClickListener(new View.OnClickListener() {
                     @Override public void onClick(View v) {
-                        Intent i = new Intent(getApplicationContext(), UpdatePostActivity.class);
+                        Intent i = new Intent(getApplicationContext(), DetailContent.class);
 
-                        String id = model.getId();
+                        SharedPreferences sharedPrf = getSharedPreferences("id", MODE_PRIVATE);
+                        SharedPreferences.Editor edit = getSharedPreferences("id", MODE_PRIVATE).edit();
+                        edit.putString("id", model.getId());
+                        edit.apply();
 
-                        i.putExtra("id", id);
-                        startActivity(i);
+                        startActivityForResult(i,5);
                     }
                 });
             }
 
             @NonNull
             @Override
-            public EditPostActivity.ContentHolder onCreateViewHolder(@NonNull ViewGroup group, int i) {
+            public Favorite.ContentHolder onCreateViewHolder(@NonNull ViewGroup group, int i) {
                 View view = LayoutInflater.from(group.getContext())
                         .inflate(R.layout.model_content_layout, group, false);
-                return new EditPostActivity.ContentHolder(view);
+                return new Favorite.ContentHolder(view);
             }
 
             @Override
@@ -120,12 +143,11 @@ public class EditPostActivity extends AppCompatActivity {
             }
         };
         adapter.notifyDataSetChanged();
-        editRecyclerView.setAdapter(adapter);
+        mRecyclerView.setAdapter(adapter);
     }
 
-    //holder dari content
     public class ContentHolder extends RecyclerView.ViewHolder{
-        private TextView mJudulPst, mUpahPst, mdaerahPst;
+        private TextView mJudulPst, mUpahPst, mDaerahPst;
         private ImageView mThumbnail;
 
         public ContentHolder(@NonNull View itemView) {
@@ -133,7 +155,7 @@ public class EditPostActivity extends AppCompatActivity {
             mJudulPst = itemView.findViewById(R.id.card_content_judul);
             mUpahPst = itemView.findViewById(R.id.card_content_upah);
             mThumbnail = itemView.findViewById(R.id.content_thumbnail);
-            mdaerahPst = itemView.findViewById(R.id.card_content_daerah);
+            mDaerahPst = itemView.findViewById(R.id.card_content_daerah);
 
         }
     }
@@ -141,7 +163,21 @@ public class EditPostActivity extends AppCompatActivity {
     //inisialisasi recylerview
     private void init() {
         gridLayoutManager = new GridLayoutManager(getApplicationContext(), 2);
-        editRecyclerView.setLayoutManager(gridLayoutManager);
+        mRecyclerView.setLayoutManager(gridLayoutManager);
+    }
+
+    private long backPressedTime;
+    private Toast backToast;
+    @Override
+    public void onBackPressed() {
+        if (backPressedTime + 2000 > System.currentTimeMillis()) {
+            backToast.cancel();
+            moveTaskToBack(true);
+        } else {
+            backToast = Toast.makeText(getBaseContext(), "Press back again to exit", Toast.LENGTH_SHORT);
+            backToast.show();
+        }
+        backPressedTime = System.currentTimeMillis();
     }
 
     @Override
@@ -155,5 +191,4 @@ public class EditPostActivity extends AppCompatActivity {
         super.onStop();
         adapter.stopListening();
     }
-
 }
