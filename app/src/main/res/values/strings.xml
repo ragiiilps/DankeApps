@@ -16,4 +16,8 @@
     <string name="user_location_permission_explanation">Tolong izinkan agar apliasi berjalan dengan baik</string>
     <string name="user_location_permission_not_granted">Maps tidak bisa digunakan</string>
     <string name="noAddresss">Lokasi tidak ditemukan. Pengiklan tidak menyediakan alamat lengkap</string>
+    <string name="AppIdFire2nd">1:680412911024:android:e33cfe881e3eb784527275</string>
+    <string name="APIFire2ndKey">AIzaSyB52R0Y-ZM2_4xHmxUNBp2Avw0oEGVYGpE</string>
+    <string name="DatabaseUrl">https://danke-apps.firebaseio.com</string>
+    <string name="StorageBucket">danke-apps.appspot.com</string>
 </resources>

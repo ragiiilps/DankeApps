@@ -42,6 +42,35 @@
           ]
         }
       }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:105519248770:android:9358d596d090e958520b9b",
+        "android_client_info": {
+          "package_name": "com.warnetit.dankeapps"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "105519248770-snsgma5jqigb7ugmpg7n9jsfevm217lb.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBxP6UoJYSJXpSbdrAcEExpioP_y_ECc1I"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "105519248770-snsgma5jqigb7ugmpg7n9jsfevm217lb.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
     }
   ],
   "configuration_version": "1"

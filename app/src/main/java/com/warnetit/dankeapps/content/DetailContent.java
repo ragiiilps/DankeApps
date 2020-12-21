@@ -404,10 +404,10 @@ public class DetailContent extends AppCompatActivity implements OnMapReadyCallba
     private void initSecondFirebaseAcct(){
         FirebaseOptions options = new FirebaseOptions.Builder()
                 .setProjectId("danke-apps")
-                .setApplicationId("1:680412911024:android:339505bcd4b06c9b527275")
-                .setApiKey("AIzaSyB52R0Y-ZM2_4xHmxUNBp2Avw0oEGVYGpE")
-                .setDatabaseUrl("https://danke-apps.firebaseio.com")
-                .setStorageBucket("danke-apps.appspot.com")
+                .setApplicationId(getString(R.string.AppIdFire2nd))
+                .setApiKey(getString(R.string.APIFire2ndKey))
+                .setDatabaseUrl(getString(R.string.DatabaseUrl))
+                .setStorageBucket(getString(R.string.StorageBucket))
                 .build();
         try {
             FirebaseApp.initializeApp(this, options, "dankeapps");
